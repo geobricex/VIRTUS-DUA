@@ -23,7 +23,7 @@ Client and PrimeNG as a collection of interface components. as environment
 integrated development of JetBrains company software with academic license:
 Intellij, DataGrip and Webstorm. And finally deploying it in a Docker container
 hosted on a Centos7 public server provided by the UTEQ under the web address
-https://fyc.uteq.edu.ec:9000/.
+https://fyc.uteq.edu.ec/virtus/.
 
 For more information consult the thesis on the following website https://repositorio.uteq.edu.ec/items/8e8592ce-e33a-474a-8f31-01c3ccf964db/full
 
