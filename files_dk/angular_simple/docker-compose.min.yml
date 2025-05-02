@@ -1,0 +1,10 @@
+version: '3'
+services:
+  angular:
+    container_name: virtus_angular
+    image: virtus/harmony
+    ports:
+      - 9000:4200
+    command: "ng serve --host 0.0.0.0"
+    restart: always
+    

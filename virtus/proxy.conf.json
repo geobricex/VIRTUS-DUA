@@ -1,0 +1,12 @@
+{
+  "/virtusbk/*": {
+    "target": "https://fyc.uteq.edu.ec/virtus/virtusbk/",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/virtus_bk/*": {
+    "target": "http://localhost:8888/",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}

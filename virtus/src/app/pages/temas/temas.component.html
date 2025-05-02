@@ -1,0 +1,170 @@
+<div class="card">
+
+  <div class="" *ngIf="loadingDataCourse">
+    <div class="grid mb-2">
+      <div class="col-6">
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+      </div>
+      <div class="col-6">
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+      </div>
+    </div>
+    <div class="grid mb-2">
+      <div class="col-1 ">
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+      </div>
+      <div class="col-5 ">
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+      </div>
+      <div class="col-1 ">
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+      </div>
+      <div class="col-5 ">
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-1 ">
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+      </div>
+      <div class="col-5">
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+      </div>
+      <div class="col-1 ">
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+      </div>
+      <div class="col-5">
+        <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loadingDataCourse">
+    <div class="grid">
+      <div class="col-6">
+        <strong> Datos del curso seleccionado </strong>
+        <hr>
+      </div>
+      <div class="col-6">
+        <strong> Datos del módulo seleccionado </strong>
+        <hr>
+      </div>
+    </div>
+    <div class="grid mb-2">
+      <div class="col-1">
+        <strong> Título: </strong>
+      </div>
+      <div class="col-5">
+        {{dataCourse.nameCourse}}
+      </div>
+      <div class="col-1">
+        <strong> Título: </strong>
+      </div>
+      <div class="col-5">
+        {{dataModule.name_syllabu}}
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-1 ">
+        <strong> Descripción: </strong>
+      </div>
+      <div class="col-5 ">
+        {{dataCourse.descriptionCourse}}
+      </div>
+      <div class="col-1 ">
+        <strong> Descripción: </strong>
+      </div>
+      <div class="col-5 ">
+        {{dataModule.description_syllabu}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+
+  <div *ngIf="loading">
+    <p-skeleton height="5rem" styleClass="mb-2"></p-skeleton>
+    <div class="grid">
+      <div class="col">
+        <p-skeleton height="25rem" styleClass="mb-2"></p-skeleton>
+      </div>
+      <div class="col">
+        <p-skeleton height="25rem" styleClass="mb-2"></p-skeleton>
+      </div>
+      <div class="col">
+        <p-skeleton height="25rem" styleClass="mb-2"></p-skeleton>
+      </div>
+    </div>
+  </div>
+
+  <p-dataView #dv [value]="temas" [paginator]="true" [rows]="6" filterBy="name_topic,description_topic,keywords_topic"
+              layout="grid" [sortField]="sortField" [sortOrder]="sortOrder" *ngIf="!loading">
+    <ng-template pTemplate="header">
+      <div class="grid grid-nogutter flex-column md:flex-row justify-content-between">
+        <p-dropdown [options]="sortOptions" placeholder="Ordenar por" (onChange)="onSortChange($event)"
+                    styleClass="mb-2 md:mb-0"></p-dropdown>
+        <span class="p-input-icon-left mb-2 md:mb-0">
+                    <i class="pi pi-search"></i>
+                    <input type="search" pInputText placeholder="Buscador..."
+                           (input)="dv.filter($any($event.target).value, 'contains')">
+                </span>
+        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+      </div>
+    </ng-template>
+
+    <ng-template let-tema pTemplate="listItem">
+      <div class="col-12 hover:bg-black-alpha-10 cursor-pointer">
+
+        <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
+          <img [src]="tema.pathimg_topic" [alt]="tema.name_topic" width="100" height="100"
+               class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5"/>
+          <div class="flex-1 text-center md:text-left">
+            <div class="font-bold text-2xl">{{tema.name_topic}}</div>
+            <div class="mb-3">{{tema.description_topic}}</div>
+            <!--<p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>-->
+          </div>
+          <div
+            class="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0">
+            <button pButton icon="pi pi-desktop" label="Ingresar" class="mb-2 p-button p-button-info"
+                    routerLink="resources/{{tema.id_topic}}"></button>
+            <span *ngIf="tema.cantevaluation > 0" class="product-badge status-instock"> Tiene evaluaciones </span>
+            <span *ngIf="tema.cantevaluation == 0" class="product-badge status-outofstock"> No tiene evaluaciones </span>
+
+            <!-- <span class="product-price">${{product.price}}</span>
+            <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>-->
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template let-tema pTemplate="gridItem">
+      <div class="col-12 md:col-4 md:col-4 hover:bg-black-alpha-10 cursor-pointer">
+        <div class="card m-3 border-1 surface-border card-virtus">
+          <div class="flex align-items-center justify-content-between">
+            <div class="flex align-items-center">
+            </div>
+            <span *ngIf="tema.cantevaluation > 0" class="product-badge status-instock"> Tiene evaluaciones </span>
+            <span *ngIf="tema.cantevaluation == 0" class="product-badge status-outofstock"> No tiene evaluaciones </span>
+          </div>
+
+          <div class="text-center">
+            <div class="w-full  my-3 mx-0 imgcard-virtus">
+              <img [src]="tema.pathimg_topic" [alt]="tema.name_topic" width="200"
+                   routerLink="resources/{{tema.id_topic}}" pTooltip="Click para ingresar" tooltipPosition="right"/>
+            </div>
+            <div class="text-2xl font-bold">{{tema.name_topic}}</div>
+            <div class="mb-3">{{tema.description_topic}}</div>
+            <!--<p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>-->
+          </div>
+          <div class="flex align-items-center justify-content-between">
+            <!--<span class="product-price">${{product.price}}</span>
+            <p-button icon="pi pi-shopping-cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></p-button>-->
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+  <p-scrollTop target="window" styleClass="custom-scrolltop" [threshold]="100" icon="pi pi-arrow-up"></p-scrollTop>
+
+</div>

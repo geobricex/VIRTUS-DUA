@@ -1,0 +1,343 @@
+<p-toast key="tst" [baseZIndex]="99999"></p-toast>
+<!--<p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" position="bottom" [baseZIndex]="10000"-->
+<!--                 rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>-->
+<div class="grid p-fluid">
+  <div class="col-12">
+    <h3> {{tituloTopic}} </h3>
+    <span> {{descriptionTopic}} </span>
+    <div class="card mt-3">
+      <h5>Recursos</h5>
+      <button pButton label="Nuevo" icon="pi pi-plus" class="p-button p-button-success w-8rem mt-2"
+              (click)="newResourseDialog=true"></button>
+      <p-carousel [value]="resourcesData" [numVisible]="3" [numScroll]="3" [circular]="false"
+                  [responsiveOptions]="carouselResponsiveOptions" [style]="{'margin-top':'1rem'}">
+        <ng-template let-resource pTemplate="item">
+          <div class="border-round m-2 text-center p-2" style="border: 1px solid var(--surface-d)">
+            <div>
+              <h5 class="mb-1">{{resource.name_resource}}</h5>
+              <span> {{resource.description_resource}} </span> <br>
+              <div class="my-3">
+                <a [href]="resource.pathfile_resource"
+                   target="_blank" pButton pRipple icon="xxx"
+                   class="mr-2 p-button-rounded p-button"
+                   [download]="resource.pathfile_resource"
+                   *ngIf="!resource.pathfile_resource.includes('.pdf') && resource.pathfile_resource !== ''">
+                  <i class="pi pi-file"></i>
+                </a>
+                <button *ngIf="resource.pathfile_resource !== '' && resource.pathfile_resource.includes('.pdf')" pButton
+                        pRipple icon="pi pi-file"
+                        class="mr-2 p-button-rounded" pTooltip="Archivo"
+                        tooltipPosition="bottom" (click)="viewFile(resource.pathfile_resource)"></button>
+                <button *ngIf="resource.pathurlsign_resource !== ''" pButton pRipple icon="xxx"
+                        class="mr-2 p-button-rounded p-button-success"
+                        pTooltip="Lengua de señas" tooltipPosition="bottom"
+                        (click)="viewVideo(resource.pathurlsign_resource)">
+                  <fa-icon [icon]="['fas', 'hands']"></fa-icon>
+                </button>
+                <button *ngIf="resource.pathvideo_resource !== ''" pButton pRipple icon="pi pi-video"
+                        class="mr-2 p-button-rounded p-button-info"
+                        pTooltip="Video" tooltipPosition="bottom"
+                        (click)="viewVideo(resource.pathvideo_resource)">
+                </button>
+                <button *ngIf="resource.pathurlremote_resource !== ''" class="p-button-rounded p-button-help"
+                        pButton pRipple icon="pi pi-link" pTooltip="Enlace remoto" tooltipPosition="bottom"
+                        (click)="viewUrlRemot(resource.pathurlremote_resource)">
+                </button>
+              </div>
+              <hr>
+              <div class="my-3">
+                <!--                <button pButton pRipple icon="pi pi-pencil" label="Editar" class="mr-2 p-button-info w-8rem"-->
+                <!--                        pTooltip="Editar recurso" tooltipPosition="bottom"></button>-->
+                <button pButton pRipple icon="pi pi-trash" label="Eliminar" class="mr-2 p-button-danger w-8rem"
+                        pTooltip="Eliminar recurso" tooltipPosition="bottom"
+                        (click)="deleteResource(resource)"></button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-carousel>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card">
+      <h5>Evaluaciones</h5>
+      <button pButton label="Nuevo" icon="pi pi-plus" class="p-button p-button-success w-8rem mt-2"
+              (click)="newEvaluationsDialog=true"></button>
+      <p-carousel [value]="evaluationData" [numVisible]="3" [numScroll]="3" [circular]="false"
+                  [responsiveOptions]="carouselResponsiveOptions" [style]="{'margin-top':'1rem'}">
+        <ng-template let-evaluation pTemplate="item">
+          <div class="border-round m-2 text-center p-2"
+               [ngClass]="evaluation.type_evaluation === 1 ? 'bg-blue-50' : 'bg-green-50'"
+               style="border: 1px solid var(--surface-d)">
+            <div>
+              <h5 class="mb-1">{{evaluation.name_evaluation}}</h5>
+              <span> {{evaluation.description_evaluation}} </span> <br>
+              <div class="mt-2">
+                <i *ngIf="evaluation.type_evaluation === 2" class="pi pi-check-circle lg:font-bold text-green-500"
+                   style="font-size: 45px"></i>
+                <img *ngIf="evaluation.type_evaluation === 1" src="assets/layout/images/imagesVirtus/SVG/evaluacion.svg"
+                     alt="" width="50">
+              </div>
+              <span
+                class="text-pink-400 font-italic font-bold"> {{evaluation.type_evaluation === 1 ? 'Evaluación' : 'Autoevaluación'}} </span>
+              <div class="mt-3">
+                <span class="p-badge p-badge-warning"> Preguntas: {{evaluation.numberquestion_evaluation}} </span> <br>
+                <!--                <span-->
+                <!--                  class="p-badge p-badge-success mt-3"> Tiene tiempo: {{evaluation.timeEvaluation ? 'Si' : 'No'}} </span>-->
+                <!--                <br>-->
+                <span *ngIf="evaluation.time_evaluation"
+                      class="p-badge p-badge-success mt-3"> Tiempo (minutos): {{evaluation.timeminutes_evaluation}} </span>
+                <span *ngIf="!evaluation.time_evaluation"
+                      class="p-badge p-badge-success mt-3"> Tiempo (minutos): Ilimitado </span>
+                <br>
+                <!--                <span-->
+                <!--                  class="p-badge p-badge-success mt-3"> Tiene oportunidades: {{evaluation.opportunitiesEvaluation ? 'Si' : 'No'}} </span>-->
+                <!--                <br>-->
+                <span *ngIf="evaluation.opportunity_evaluation"
+                      class="p-badge p-badge-secondary mt-3"> Intento número: {{evaluation.trynumber_person_evaluation}}
+                  de {{evaluation.opportunities_evaluation}} </span>
+                <span *ngIf="!evaluation.opportunity_evaluation"
+                      class="p-badge p-badge-secondary mt-3">Intento número:  {{evaluation.trynumber_person_evaluation}}
+                  de Ilimitado </span>
+                <br>
+                <span
+                  class="p-badge p-badge-info mt-3"> Permite revisión: {{evaluation.allows_review ? 'Si' : 'No'}} </span>
+                <br>
+                <span
+                  class="p-badge p-badge-danger mt-3"> Ordenado por categoría: {{evaluation.order_category ? 'Si' : 'No'}} </span>
+
+              </div>
+              <hr>
+              <div class="my-3">
+                <button pButton pRipple icon="pi pi-pencil" label="Editar" class="mr-2 p-button-info w-8rem"
+                        pTooltip="Editar evaluacion" tooltipPosition="bottom"
+                        routerLink="update_evaluation/{{evaluation.id_evaluation}}"></button>
+                <button pButton pRipple icon="pi pi-trash" label="Eliminar" class="mr-2 p-button-danger w-8rem"
+                        pTooltip="Eliminar evaluación" tooltipPosition="bottom"
+                        (click)="deleteEvaluation(evaluation)"></button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-carousel>
+    </div>
+  </div>
+
+  <!--dialog para agregar un nuevo recurso-->
+  <p-dialog [(visible)]="newResourseDialog" [style]="{width: '450px'}" header="Nuevo recurso" [modal]="true"
+            class="p-fluid" [style.z-index]="1000">
+    <ng-template pTemplate="content">
+      <p-messages [value]="msg"></p-messages>
+      <form [formGroup]="registerFormResources">
+        <div class="field">
+          <div class="grid">
+            <div class="col">
+              <input type="text" autocomplete="off" pInputText class="w-full" formControlName="pathfileResource"
+                     readonly placeholder="Seleccionar archivo"/>
+              <small class="text-blue-500">Se permiten archivos .pdf .doc .xls .txt .zip</small>
+            </div>
+            <div class="col-2">
+              <label for="uploadFile" class="p-button p-button-secondary" (click)="typeFileGlobal='a'">
+                <i class="pi pi-folder m-auto"></i>
+                <input style="display: none" id="uploadFile" type="file" (change)="onUploadFile($event)">
+              </label>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="col">
+              <input type="text" autocomplete="off" pInputText class="w-full" formControlName="pathurlsignResource"
+                     readonly
+                     placeholder="Seleccionar video con lenguaje de señas"/>
+              <small class="text-blue-500">Se permiten videos con formato .mp4.</small>
+            </div>
+            <div class="col-2">
+              <label for="uploadVideoSenia" class="p-button p-button-success" (click)="typeFileGlobal='s'"> <i
+                class="pi pi-folder m-auto"></i> </label>
+              <input style="display: none" id="uploadVideoSenia" type="file" (change)="onUploadVideoSenia($event)">
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="col">
+              <input type="text" autocomplete="off" pInputText class="w-full" formControlName="pathvideoResource"
+                     readonly
+                     placeholder="Seleccionar video"/>
+              <small class="text-blue-500">Se permiten videos con formato .mp4.</small>
+            </div>
+            <div class="col-2">
+              <label for="uploadVideo" class="p-button p-button-info" (click)="typeFileGlobal='v'"> <i
+                class="pi pi-folder m-auto"></i>
+              </label>
+              <input style="display: none" id="uploadVideo" type="file" (change)="onUploadVideo($event)">
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="nombreRe"> Url del rescurso remoto: </label>
+          <input type="text" pInputText class="w-full" formControlName="pathurlremote_resource">
+        </div>
+
+        <div class="field">
+          <label for="nombreRe"> Nombre: </label>
+          <input id="nombreRe" type="text" autocomplete="off" pInputText class="w-full" formControlName="nameResources"
+                 [ngClass]="
+                 (formR['nameResources'].invalid && (formR['nameResources'].dirty && formR['nameResources'].touched)) ?
+                 'ng-dirty ng-invalid' : ''"/>
+          <small
+            *ngIf="formR['nameResources'].invalid && (formR['nameResources'].dirty && formR['nameResources'].touched)"
+            class="p-error">Este campo es requerido.</small>
+        </div>
+        <div class="field">
+          <label for="desres"> Descripción: </label>
+          <textarea pInputTextarea name="" id="desres" cols="30" rows="5" formControlName="descriptionRes" [ngClass]="
+                 (formR['descriptionRes'].invalid && (formR['descriptionRes'].dirty && formR['descriptionRes'].touched)) ?
+                 'ng-dirty ng-invalid' : ''"></textarea>
+          <small
+            *ngIf="formR['descriptionRes'].invalid && (formR['descriptionRes'].dirty && formR['descriptionRes'].touched)"
+            class="p-error">Este campo es requerido.</small>
+        </div>
+      </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-warning"
+              (click)="resetResources()"></button>
+      <button pButton pRipple [disabled]="registerFormResources.invalid" label="Guardar cambios" icon="pi pi-check"
+              class="p-button-success" (click)="saveResources()"></button>
+    </ng-template>
+  </p-dialog>
+
+  <!--dialog para agreegar una nueva evaluacion-->
+  <p-dialog [(visible)]="newEvaluationsDialog" [style]="{width: '450px'}" header="Nueva evaluación"
+            [modal]="true" class="p-fluid" [style.z-index]="1000">
+    <ng-template pTemplate="content">
+      <form [formGroup]="registerFormEvaluation" name="form">
+
+        <div class="field">
+          <label for="nombrem">Nombre:</label>
+          <input id="nombrem" type="text" autocomplete="off" pInputText class="w-full" formControlName="name"
+                 [ngClass]="
+                 (form['name'].invalid && (form['name'].dirty && form['name'].touched)) ?
+                 'ng-dirty ng-invalid' : ''"/>
+          <small *ngIf="form['name'].invalid && (form['name'].dirty && form['name'].touched)"
+                 class="p-error">Este campo es requerido.</small>
+        </div>
+        <div class="field">
+          <label for="descm">Descripción:</label>
+          <textarea pInputTextarea name="" id="descm" cols="30" rows="5" formControlName="description" [ngClass]="
+                 (form['description'].invalid && (form['description'].dirty && form['description'].touched)) ?
+                 'ng-dirty ng-invalid' : ''"></textarea>
+          <small
+            *ngIf="form['description'].invalid && (form['description'].dirty && form['description'].touched)"
+            class="p-error">Este campo es requerido.</small>
+        </div>
+        <div class="field">
+          <label>Tipo:</label>
+          <p-dropdown id="type" [options]="typeEvalutionform" optionLabel="label" optionValue="value"
+                      formControlName="typeEvaluation" [ngClass]="
+                 (form['typeEvaluation'].invalid && (form['typeEvaluation'].dirty && form['typeEvaluation'].touched)) ?
+                 'ng-dirty ng-invalid' : ''"></p-dropdown>
+          <small
+            *ngIf="form['typeEvaluation'].invalid && (form['typeEvaluation'].dirty && form['typeEvaluation'].touched)"
+            class="p-error">Este campo es requerido.</small>
+        </div>
+
+        <div class="grid">
+          <div class="col-2">
+            <div class="field" style="display: grid">
+              <label>Tiempo:</label>
+              <p-inputSwitch formControlName="timeEvaluation"></p-inputSwitch>
+            </div>
+          </div>
+          <div class="col" *ngIf="form['timeEvaluation'].value">
+            <div class="field">
+              <label for="tiempomin"> Tiempo (minmutos): </label>
+              <p-inputNumber id="tiempomin" formControlName="timeminutesEvaluation"
+                             [ngClass]="
+                 (form['timeminutesEvaluation'].invalid && (form['timeminutesEvaluation'].dirty && form['timeminutesEvaluation'].touched)) ?
+                 'ng-dirty ng-invalid' : ''"></p-inputNumber>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-2">
+            <div class="field" style="display: grid">
+              <label for="tiempomin"> Intentos: </label>
+              <p-inputSwitch formControlName="opportunityEvaluation"></p-inputSwitch>
+            </div>
+          </div>
+          <div class="col" *ngIf="form['opportunityEvaluation'].value">
+            <div class="field">
+              <label for="cantintentos"> Cantidad de intentos: </label>
+              <p-inputNumber id="cantintentos" formControlName="opportunitiesEvaluation"
+                             [ngClass]=" (form['opportunitiesEvaluation'].invalid && (form['opportunitiesEvaluation'].dirty
+                           && form['opportunitiesEvaluation'].touched)) ?
+                 'ng-dirty ng-invalid' : ''"></p-inputNumber>
+            </div>
+          </div>
+        </div>
+
+        <div class="field" style="display: grid">
+          <label for="orderCategory"> Ordenar por categoría: </label>
+          <p-inputSwitch id="orderCategory" [(ngModel)]="checked"
+                         formControlName="orderByCategory"></p-inputSwitch>
+        </div>
+
+        <div class="field" style="display: grid">
+          <label for="reviwIntent"> Revision de intento: </label>
+          <p-inputSwitch id="reviwIntent" [(ngModel)]="checked"
+                         formControlName="allowsReview"></p-inputSwitch>
+        </div>
+        <br/>
+        <label><span>Nota:</span> En evaluación es obligatorio tener tiempo</label>
+      </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-warning"
+              (click)="resetEvaluation()"></button>
+      <button pButton pRipple [disabled]="registerFormEvaluation.invalid" label="Guardar cambios" icon="pi pi-check"
+              class="p-button-success" (click)="saveEvaluation()"></button>
+    </ng-template>
+  </p-dialog>
+
+  <p-dialog [(visible)]="viewPdf" [style]="{width: '890px'}" header="Visualizar pdf" [modal]="true"
+            class="p-fluid">
+    <ng-template pTemplate="content">
+      <div class="">
+        <pdf-viewer [src]="pdfUrl" [zoom-scale]="'page-width'"
+                    [page]=""
+                    [zoom]="1.1"
+        ></pdf-viewer>
+      </div>
+    </ng-template>
+  </p-dialog>
+
+  <p-dialog [(visible)]="viewVideoDialog" header="Visualizar video" [modal]="true"
+            class="p-fluid">
+    <ng-template pTemplate="content">
+      <video src="{{videoUrl}}" controls draggable="true" width="800" height="500"></video>
+    </ng-template>
+  </p-dialog>
+
+  <p-dialog [(visible)]="vieweRemoteUrl" [style]="{width: '1000px', height: '600px'}" header="Visualizar recurso remoto"
+            [modal]="true"
+            class="p-fluid">
+    <a [href]="urlSafe" target="_blank">
+      <button pbutton="" pripple="" type="button"
+              icon="pi pi-search"
+              class="p-element p-ripple p-button-rounded p-button-success mr-2 mb-2 p-button p-component p-button-icon-only">
+        <span class="p-button-icon pi pi-search" aria-hidden="true"></span>
+      </button>
+    </a>
+    <iframe width="100%" height="100%" frameBorder="0" [src]="urlSafe"></iframe>
+
+  </p-dialog>
+
+  <p-scrollTop target="window" styleClass="custom-scrolltop" [threshold]="100" icon="pi pi-arrow-up"></p-scrollTop>
+
+</div>
+
+

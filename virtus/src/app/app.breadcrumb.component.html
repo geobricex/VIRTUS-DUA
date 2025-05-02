@@ -1,0 +1,48 @@
+<div class="route-bar">
+  <div class="route-bar-breadcrumb">
+    <li>
+      <a routerLink="/app">
+        <i class="pi pi-home"></i>
+      </a>
+    </li>
+    <li>&nbsp;
+      <i style="color: #0f0f0f" class="pi pi-angle-right"></i>
+    </li>
+    <ng-template ngFor let-item let-last="last" [ngForOf]="items">
+      <li *ngIf="item.label !== ''">
+        <a [routerLink]="item.routerLink" *ngIf="item.routerLink"> {{item.label}} </a>
+        <ng-container *ngIf="!item.routerLink"> {{item.label}} </ng-container>
+      </li>
+      <li *ngIf="!last && item.label !== ''">
+        <i style="color: #0f0f0f" class="pi pi-angle-right"></i>
+      </li>
+    </ng-template>
+  </div>
+
+  <ul class="route-bar-menu">
+    <!--        <li>-->
+    <!--            <a href="#">-->
+    <!--                <i class="pi pi-check-square"></i>-->
+    <!--                <span>Misión y visión</span>-->
+    <!--            </a>-->
+    <!--        </li>-->
+    <li>
+<!--      <a href="#">-->
+<!--        <i class="pi pi-envelope"></i>-->
+<!--        <span>Buzón de sugerencias - soporte</span>-->
+<!--      </a>-->
+    </li>
+    <li>
+      <a href="assets/handbook/Manual%20VIRTUS%20-%20UTEQ%20(ver.%202023).pdf" download="Manual VIRTUS - UTEQ (ver. 2023).pdf" >
+        <i class="pi pi-file"></i>
+        <span>Manual de usuario</span>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="items[0].routerLink" class="bg-blue-300">
+        <i class="pi pi-angle-left"></i>
+        <span>Atrás</span>
+      </a>
+    </li>
+  </ul>
+</div>

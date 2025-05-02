@@ -1,0 +1,293 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <div class="grid">
+        <div class="col-12 centar-botones">
+          <h1 class="mt-2">{{dataReviews.name_course}}</h1>
+          <h3 class="mt-2">{{dataReviews.name_topic}}</h3>
+          <h4 class="mt-2">{{dataReviews.name_syllabu}}</h4>
+        </div>
+        <div class="xl:col-9 lg:col-6 sm:col-6">
+          <h4 class="mt-2">{{dataReviews.name_evaluation}}</h4>
+        </div>
+        <div class="xl:col-1 md:col-2 sm:col-2 text-center border-right-1 line-height-3">
+          <span>Puntaje</span> <br>
+          <span><strong>{{dataReviews.qualification_person_evaluation + ' / ' + totalPuntos()}}</strong></span>
+        </div>
+        <div class="xl:col-1 md:col-2 sm:col-2 text-center border-right-1 line-height-3">
+          <span>Tiempo</span> <br>
+          <span><strong>{{miliseguntos2Segundos(dataReviews.timespent_person_evaluation)}}</strong></span>
+        </div>
+        <!--        <div class="xl:col-1 md:col-2 sm:col-2 text-center">-->
+        <!--          <button pButton pRipple label="Exportar"-->
+        <!--                  class="p-button-success mt-2"></button>-->
+        <!--        </div>-->
+        <div class="col-12 p-fieldset-content">
+          <p>{{dataReviews.description_evaluation}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 md:col-12">
+    <div class="card"
+         *ngFor="let questionObject of dataReviews.result_evaluation.questions_; let indexQuestionObject = index"
+         [attr.data-index]="indexQuestionObject">
+      <h4> {{'Pregunta N° ' + (indexQuestionObject + 1 || 0) + ' : ' + questionObject.title_question}} </h4>
+
+      <p-chip label="{{getNivelQuestion(questionObject.level_question || 1)}}"
+              image="{{'assets/imgresource/emojis/lvl'+(questionObject.level_question|| 1)+'.png'}}"
+      ></p-chip>
+      <p-chip *ngIf="questionObject.points_question == false" label="Piloto"
+              image="{{'assets/imgresource/empty/shield.png'}}"
+      ></p-chip>
+      <div class="flex align-items-center">
+        <p-chip
+          label="{{'Calificación: ' + questionObject.response_points + ' / '+ questionObject.maximumpoints_question}}"
+          icon="pi pi-star-fill" styleClass="mr-2 custom-chip"
+          *ngIf="questionObject.response_points!==undefined"></p-chip>
+        <p-chip label="{{'Tiempo: ' + miliseguntos2Segundos(questionObject.response_time)}}"
+                icon="pi pi-clock" styleClass="mr-2 custom-chip"
+                *ngIf="questionObject.response_time!==undefined"
+                ></p-chip>
+
+        <p-chip label="{{'Nª Intentos: ' + questionObject.num_intentos}}"
+                icon="pi pi-send" styleClass="mr-2 custom-chip"
+                *ngIf="questionObject.type_evaluation == 1"></p-chip>
+
+        <p-chip label="{{'Nª Movimientos: ' + questionObject.num_mov}}"
+                icon="pi pi-microsoft" styleClass="mr-2 custom-chip"
+                *ngIf="questionObject.num_mov!==undefined"
+                ></p-chip>
+
+      </div>
+      <div *ngIf="validarPreguntaRecurso(questionObject.pathurlfile_question)" class="col-12">
+        <div class="col-12 text-center">
+          <object type="application/pdf" *ngIf="isPdf(questionObject.pathurlfile_question)"
+                  data="{{questionObject.pathurlfile_question}}"
+                  height="200">
+          </object>
+          <img [src]="questionObject.pathurlfile_question" height="200"
+               *ngIf="isImg(questionObject.pathurlfile_question)">
+        </div>
+        <div class="col-12 text-center">
+          <div class="p-buttonset">
+            <a pButton pRipple icon="pi pi-download" href="{{questionObject.pathurlfile_question}}"
+               [download]="questionObject.pathurlfile_question" target="_blank" label="Descargar Recurso"
+               class="p-button-rounded p-button-primary mr-2 mb-2"
+            ></a>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="validarPreguntaRecurso(questionObject.pathurlvideo_question)" class="col-12">
+        <div class="col-12 text-center">
+          <video id="pathurlvideo_question" height="300" controls [src]="questionObject.pathurlvideo_question"
+                 [autoplay]="false">
+          </video>
+        </div>
+        <div class="col-12 text-center">
+          <div class="p-buttonset">
+            <button id="reproducir_video_rec" pButton pRipple icon="pi pi-play"
+                    class="p-button-rounded p-button-warning mr-2 mb-2"
+                    (click)="playVideo()"></button>
+            <button id="pausar_video_rec" pButton pRipple icon="pi pi-pause"
+                    class="p-button-rounded p-button-info mr-2 mb-2"
+                    (click)="pauseVideo()"></button>
+            <button id="silenciar_video_rec" pButton pRipple icon="pi pi-volume-up"
+                    class="p-button-rounded p-button-success mr-2 mb-2"
+                    (click)="mutedVideo()"></button>
+          </div>
+        </div>
+      </div>
+
+      <h5>{{questionObject.description_question}}</h5>
+      <!--verdadero o falso-->
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(1) && !questionObject.canResource">
+        <div *ngFor="let option of questionObject.answers_[0].options_answer; let i = index">
+          <div class="field-radiobutton">
+            <p-radioButton [inputId]="'option_vf_' + alphabet[i]" name="Simple_Option" [value]="option"
+                           [(ngModel)]="questionObject.answers_[0].options_answer[buscarLiteral(questionObject)] "
+                           [disabled]="true"></p-radioButton>
+            <label [for]="'option_vf_' + alphabet[i]">{{alphabet[i].toUpperCase() + ")\t" + option.opcion}}</label>
+          </div>
+        </div>
+      </div>
+      <!--Selección unica normal-->
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(2) && !questionObject.canResource">
+        <div *ngFor="let option of questionObject.answers_[0].options_answer; let i = index">
+          <div class="field-radiobutton">
+            <p-radioButton [inputId]="'option_rd_' + alphabet[i]" name="Simple_Option" [value]="option"
+                           [(ngModel)]="questionObject.answers_[0].options_answer[buscarLiteral(questionObject)] "
+                           [disabled]="true"></p-radioButton>
+            <label [for]="'option_rd_' + alphabet[i]">{{alphabet[i].toUpperCase() + ")\t" + option.opcion}}</label>
+          </div>
+        </div>
+      </div>
+      <!--Selección unica normal con imagenes-->
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(2) && questionObject.canResource"
+           class="flex align-items-center justify-content-center">
+
+        <p-card *ngFor="let option of questionObject.answers_[0].options_answer; let i = index"
+                [attr.data-index]="i" [style]="{width: '120px'}" styleClass="p-card-shadow">
+          <ng-template pTemplate="header">
+            <img class="img-color" alt="Card" [src]="option.resource" width="100">
+          </ng-template>
+          <p>{{option.opcion}}</p>
+          <ng-template pTemplate="footer">
+            <div class="field-radiobutton">
+              <p-radioButton [inputId]="'option_rd_2_' + alphabet[i]" name="Simple_Option_img" [value]="option"
+                             [(ngModel)]="questionObject.answers_[0].options_answer[buscarLiteral(questionObject)] "
+                             [disabled]="true"></p-radioButton>
+              <label
+                [for]="'option_rd_2_' + alphabet[i]"><strong>{{'Literal ' + alphabet[i].toUpperCase()}}</strong></label>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+      <!--Selección múltiple normal-->
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(3) && !questionObject.canResource">
+        <div *ngFor="let option of questionObject.answers_[0].options_answer; let i = index"
+             [attr.data-index]="i">
+          <div class="field-radiobutton">
+            <p-checkbox [inputId]="'option_ck_' + alphabet[i]" name="multiple_Option" [value]="option"
+                        [(ngModel)]="questionObject.answers_[0].responses"
+                        [disabled]="true"></p-checkbox>
+            <label [for]="'option_ck_' + alphabet[i]">{{alphabet[i].toUpperCase() + ")\t" + option.opcion}}</label>
+          </div>
+        </div>
+      </div>
+      <!--Selección múltiple normal con imagenes-->
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(3) && questionObject.canResource"
+           class="flex align-items-center justify-content-center">
+
+        <p-card *ngFor="let option of questionObject.answers_[0].options_answer; let i = index"
+                [attr.data-index]="i" [style]="{width: '120px'}" styleClass="p-card-shadow">
+          <ng-template pTemplate="header">
+            <img alt="Card" [src]="option.resource" width="100">
+          </ng-template>
+          <p>{{option.opcion}}</p>
+          <ng-template pTemplate="footer">
+            <div class="field-radiobutton">
+              <p-checkbox [inputId]="'option_ck_2_' + alphabet[i]" name="multiple_Option_img" [value]="option"
+                          [(ngModel)]="questionObject.answers_[0].responses"
+                          [disabled]="true"></p-checkbox>
+              <label
+                [for]="'option_ck_2_' + alphabet[i]"><strong>{{'Literal ' + alphabet[i].toUpperCase()}}</strong></label>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(4) && !questionObject.canResource">
+        <div *ngFor="let option of questionObject.answers_[0].options_answer; let i = index"
+             [attr.data-index]="i">
+          <div class="flex-auto">
+            <span *ngFor="let wg of questionObject.answers_[0].complete_parts; let ic = index"
+                  [attr.data-index]="ic"
+                  [style]="{color: (wg == '$option$'?'#FF0000':'#000'), 'font-weight': (wg == '$option$'?'bold;':'normal;')}">
+                {{wg != '$option$' ? wg : ('(')}}
+              <!--                <input type="text" pInputText *ngIf="wg == '$option$'"/>-->
+              <!--                no tiene imagenes-->
+                <p-dropdown [inputId]="'relation_input_' + ic"
+                            [options]="option.options"
+                            [(ngModel)]="questionObject.answers_[0].options_answer[0].response[ic]"
+                            optionLabel="option" placeholder=" -- Seleccione una opcíón --"
+                            *ngIf="wg == '$option$'" [filter]="true" filterBy="rightSide"
+                            [showClear]="true" [style]="{'minWidth':'20vw', 'width': '20vw'}"
+                >
+                  <ng-template pTemplate="selectedItem">
+                    <div class="country-item country-item-value"
+                         *ngIf="questionObject.answers_[0].options_answer[0].response[ic]">
+                      <img [src]="questionObject.answers_[0].options_answer[0].response[ic].resource" height="25"
+                           [class]="'flag flag-FR'"
+                           *ngIf="questionObject.answers_[0].options_answer[0].response[ic].resource.length > 0"
+                      />
+                      <div>{{questionObject.answers_[0].options_answer[0].response[ic].option}}</div>
+                    </div>
+                    </ng-template>
+                    <ng-template let-option pTemplate="item">
+                      <div class="ui-helper-clearfix template-border">
+                        <img [src]="option.resource" [class]="'flag flag-FR'" alt=""
+                             *ngIf="option.resource.length > 0"/>
+                        <div>{{option.option}}</div>
+                      </div>
+                    </ng-template>
+                </p-dropdown>
+              <!--                Tiene imagenes-->
+              {{wg != '$option$' ? '' : ') '}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(5)">
+
+        <!--        <div class="flex align-items-center justify-content-between">-->
+        <div class="grid justify-content-between"
+             *ngFor="let option of questionObject.answers_[0].options_answer; let i = index"
+             [attr.data-index]="i">
+          <div class="col-12 md:col-8 justify-content-end grid">
+            <div class="col-12 md:col-{{option.resourse_leftSide.length > 0?'4':'0'}} justify-content-center">
+              <img class="img-color" alt="Card" *ngIf="option.resourse_leftSide.length > 0"
+                   [src]="option.resourse_leftSide" height="100">
+            </div>
+            <div class="col-12 md:col-{{option.resourse_leftSide.length > 0?'8':'12'}} justify-content-start">
+              <p>{{alphabet[i].toUpperCase() + ")\t" + (option.leftSide.length > 0 ? option.leftSide : 'Foto')}}</p>
+            </div>
+          </div>
+          <div class="col-12 md:col-4">
+            <p-dropdown [inputId]="'relation_input_' + i" [disabled]="true"
+                        [options]="questionObject.answers_[0].right_parts!"
+                        [(ngModel)]="questionObject.answers_[0].responses[i]"
+                        optionLabel="rightSide" [filter]="true" filterBy="rightSide"
+                        [showClear]="true" placeholder=" -- - --" [style]="{'minWidth':'20vw', 'width': '20vw'}"
+            >
+              <ng-template pTemplate="selectedItem">
+                <div class="country-item country-item-value" *ngIf="questionObject.answers_[0].responses[i]">
+                  <img [src]="questionObject.answers_[0].responses[i].resourse_rightSide" height="25"
+                       [class]="'flag flag-FR'" *ngIf="questionObject.answers_[0].responses[i].resourse_rightSide"
+                  />
+                  <div>{{questionObject.answers_[0].responses[i].rightSide}}</div>
+                </div>
+              </ng-template>
+              <ng-template let-item pTemplate="item">
+                <div class="ui-helper-clearfix template-border">
+                  <img [src]="item.resourse_rightSide" [class]="'flag flag-FR'" alt=""/>
+                  <div>{{alphabet[item.ind].toUpperCase() + ".\t" + (item.rightSide.length > 0 ? item.rightSide : 'Opción')}}</div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+          <div class="col-12 justify-content-center align-content-center" style="padding-top: 0px;"
+               *ngIf="i < questionObject.answers_[0].options_answer.length - 1">
+            <p-divider></p-divider>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(6)">
+        <div class="flex align-items-center justify-content-center">
+          <img class="img-color" alt="Card" [src]="questionObject.answers_[0].options_answer[0].resource" height="150">
+        </div>
+        <h5>Puzzle:</h5>
+        <div class="centar-botones">
+          <div *ngFor="let rowImgPz of questionObject.answers_[0].tmpPuzzle.arrayImagePuzzle; let y = index">
+            <button pButton pRipple *ngFor="let elem of rowImgPz; let x = index"
+                    class="p-button-info" [ngClass]="'p-button-outlined'"
+                    style="padding: 1px!important;">
+              <img [src]="elem"/>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(7)">
+        <h5>Palabra:</h5>
+        <div class="centar-botones">
+          <button pButton pRipple
+                  *ngFor="let option of questionObject.answers_[0].options_answer[0].opcion.toString().split(''); let i = index"
+                  class="p-button-info" [ngClass]="'p-button-outlined'"
+                  [disabled]="true">
+            <img height="35" [src]="'assets/imgresource/alfabeto/' + showLetra(option, i, questionObject) + '.png'"/>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p-scrollTop target="window" styleClass="custom-scrolltop" [threshold]="100" icon="pi pi-arrow-up"></p-scrollTop>
+</div>

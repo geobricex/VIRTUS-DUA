@@ -1,0 +1,120 @@
+<p-toast key="tst" [baseZIndex]="99999"></p-toast>
+<div class="grid">
+  <div class="col-12">
+    <p-toast></p-toast>
+    <!--    <p-toolbar styleClass="mb-4">-->
+    <!--      <ng-template pTemplate="left">-->
+    <!--        <div class="my-2">-->
+
+    <!--        </div>-->
+    <!--      </ng-template>-->
+
+    <!--      <ng-template pTemplate="right">-->
+    <!--        <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help"-->
+    <!--                (click)="dt.exportCSV()"></button>-->
+    <!--      </ng-template>-->
+    <!--    </p-toolbar>-->
+    <p-table #dta [value]="dataReviews" responsiveLayout="scroll" [rows]="5" [columns]="cols"
+             [paginator]="true" [rowsPerPageOptions]="[5,10,20,30]" [showCurrentPageReport]="true"
+             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+             selectionMode="multiple" [rowHover]="true" dataKey="id"
+             [globalFilterFields]="['datereg_person_evaluation','name_course','name_syllabu','name_topic',
+             'type_evaluation', 'name_evaluation','timespent_person_evaluation','qualification_person_evaluation','trynumber_person_evaluation']">
+
+      <ng-template pTemplate="caption">
+        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+          <h5 class="m-0">Registro de evaluaciones realizadas</h5>
+          <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" placeholder="Buscar..."
+                                   (input)="dta.filterGlobal($any($event.target).value, 'contains')"/>
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="datereg_person_evaluation">Fecha de evaluación
+            <p-sortIcon field="Fechadeevaluación"></p-sortIcon>
+          </th>
+          <th pSortableColumn="name_course">Curso
+            <p-sortIcon field="Curso"></p-sortIcon>
+          </th>
+          <th pSortableColumn="name_syllabu">Módulo
+            <p-sortIcon field="Módulo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="name_topic">Tema
+            <p-sortIcon field="Tema"></p-sortIcon>
+          </th>
+          <th pSortableColumn="type_evaluation">Tipo de evaluación
+            <p-sortIcon field="Tipodeprueba"></p-sortIcon>
+          </th>
+          <th pSortableColumn="name_evaluation">Nombre de la evaluación
+            <p-sortIcon field="Nombredelaprueba"></p-sortIcon>
+          </th>
+          <th pSortableColumn="timespent_person_evaluation">Tiempo empleado
+            <p-sortIcon field="Tiempoempleado"></p-sortIcon>
+          </th>
+          <th pSortableColumn="qualification_person_evaluation">Calificación
+            <p-sortIcon field="Calificación"></p-sortIcon>
+          </th>
+          <th pSortableColumn="trynumber_person_evaluation">Intento
+            <p-sortIcon field="Intento"></p-sortIcon>
+          </th>
+          <th pSortableColumn="Revisión">Revisión
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-review>
+        <tr>
+          <td style="width:14%; min-width:10rem;"><span class="p-column-title">Fecha de evaluación</span>
+            {{review.datereg_person_evaluation}}
+          </td>
+          <td style="width:14%; min-width:10rem;">
+            <span class="p-column-title">Curso</span>
+            {{review.name_course}}
+          </td>
+
+          <td style="width:14%; min-width:8rem;">
+            <span class="p-column-title">Módulo</span>
+            {{review.name_syllabu}}
+          </td>
+          <td style="width:14%; min-width:10rem;">
+            <span class="p-column-title">Tema</span>
+            {{review.name_topic}}
+          </td>
+          <td style="width:14%; min-width:10rem;">
+            <span class="p-column-title">Tipo de evaluación</span>
+            {{review.type_evaluation == 1 ? 'Evaluación Sumativa' : 'Autoevaluación'}}
+          </td>
+          <td style="width:14%; min-width:10rem;">
+            <span class="p-column-title">Nombre de la evaluación</span>
+            {{review.name_evaluation}}
+          </td>
+          <td style="width:14%; min-width:10rem;">
+            <span class="p-column-title">Tiempo empleado</span>
+            <div *ngIf="review.type_evaluation==2"> {{ miliseguntos2Segundos(review.timespent_person_evaluation)}}
+            </div>
+            <div
+              *ngIf="review.type_evaluation==1"> {{ miliseguntos2Segundos(review.timeminutes_evaluation - review.timespent_person_evaluation)}}
+            </div>
+          </td>
+          <td style="width:14%; min-width:10rem;">
+            <span class="p-column-title">Calificación</span>
+            {{review.qualification_person_evaluation}}
+          </td>
+          <td style="width:14%; min-width:10rem;">
+            <span class="p-column-title">Intento</span>
+            {{review.trynumber_person_evaluation}}
+          </td>
+          <td style="width:14%; min-width:10rem;">
+            <button *ngIf="review.allows_review" pButton pRipple icon="pi pi-eye"
+                    class="p-button-rounded p-button-help mr-2"
+                    routerLink="review/{{review.id_person_evaluation}}">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+

@@ -1,0 +1,202 @@
+<div *ngIf="statusApi === 0">
+  <div class="grid">
+    <div class="col-6">
+      <p-skeleton height="2rem" styleClass="mb-2"></p-skeleton>
+    </div>
+    <div class="col-6">
+      <p-skeleton height="2rem" styleClass="mb-2"></p-skeleton>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="col">
+      <p-skeleton height="8rem" styleClass="mb-2"></p-skeleton>
+    </div>
+    <div class="col">
+      <p-skeleton height="8rem" styleClass="mb-2"></p-skeleton>
+    </div>
+    <div class="col">
+      <p-skeleton height="8rem" styleClass="mb-2"></p-skeleton>
+    </div>
+    <div class="col">
+      <p-skeleton height="8rem" styleClass="mb-2"></p-skeleton>
+    </div>
+  </div>
+</div>
+
+<div class="grid layout-dashboard" *ngIf="statusApi === 2">
+  <div class="col-6 intro-text">
+    <img src="../../assets/layout/images/dashboard/shape.svg" alt="harmony-layout"/>
+    <span>Datos Generales</span>
+  </div>
+  <div class="col-6 intro-calendar">
+    <p-calendar placeholder="Calendario" [showIcon]="true"></p-calendar>
+  </div>
+
+
+  <div class="col-12 md:col-6 lg:col-3">
+    <div class="stats-box views" routerLink="mycourse/">
+      <span class="statistics-header">MIS CURSOS</span>
+      <i class="pi pi-angle-right"></i>
+      <img src="../../assets/layout/images/dashboard/icon-views.svg" alt="harmony-layout"/>
+      <span class="statistics">{{homedata.my_courses}}</span>
+      <div class="statistics-info-bg">
+        <span class="statistics-info">Cantidad de cursos en los que está unido</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 md:col-6 lg:col-3">
+    <div class="stats-box checkins" routerLink="reports/intentreview/">
+      <span class="statistics-header">PUNTOS OBTENIDOS</span>
+      <i class="pi pi-angle-right"></i>
+      <img src="../../assets/layout/images/dashboard/icon-checkins.svg" alt="harmony-layout"/>
+      <span class="statistics">{{homedata.my_point}}</span>
+      <div class="statistics-info-bg">
+        <span class="statistics-info">Este es su puntaje</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 md:col-6 lg:col-3">
+    <div class="stats-box sales" routerLink="course/">
+      <span class="statistics-header">CURSOS</span>
+      <i class="pi pi-angle-right"></i>
+      <img src="../../assets/layout/images/dashboard/icon-sales.svg" alt="harmony-layout"/>
+      <span class="statistics">{{homedata.total_course}}</span>
+      <div class="statistics-info-bg">
+        <span class="statistics-info">¡Todos los cursos que ofrecemos!</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 md:col-6 lg:col-3">
+    <div class="stats-box users" routerLink="myprofile/">
+      <span class="statistics-header">USUARIOS</span>
+      <i class="pi pi-angle-right"></i>
+      <img src="../../assets/layout/images/dashboard/icon-users.svg" alt="harmony-layout"/>
+      <span class="statistics">{{homedata.total_user}}</span>
+      <div class="statistics-info-bg">
+        <span class="statistics-info">Número de usuarios registrados en la aplicación</span>
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="col-12 xl:col-6">
+      <p-panel styleClass="knobs" header="Activity">
+          <div class="grid">
+              <div class="col-12 md:col-4 knob-container">
+                  <div class="knob issue">
+                      <span class="knob-number">77</span>
+                  </div>
+                  <div class="knob-label" style="color:#00b395">
+                      <span>ISSUES</span>
+                      <i class="pi pi-sliders-h issue"></i>
+                      <div class="seperator"></div>
+                      <span class="change">Last change: <strong>26 mins ago</strong></span>
+                  </div>
+              </div>
+              <div class="col-12 md:col-4 knob-container">
+                  <div class="knob commit">
+                      <span class="knob-number">39</span>
+                  </div>
+                  <div class="knob-label" style="color:#ffba01">
+                      <span>COMMITS</span>
+                      <i class="pi pi-upload commit"></i>
+                      <div class="seperator"></div>
+                      <span class="change">Last change: <strong>26 mins ago</strong></span>
+                  </div>
+              </div>
+              <div class="col-12 md:col-4 knob-container">
+                  <div class="knob comment">
+                      <span class="knob-number">128</span>
+                  </div>
+                  <div class="knob-label" style="color:#e4018d">
+                      <span>COMMENTS</span>
+                      <i class="pi pi-comment comment"></i>
+                      <div class="seperator"></div>
+                      <span class="change">Last change: <strong>26 mins ago</strong></span>
+                  </div>
+              </div>
+          </div>
+      </p-panel>
+  </div>
+  <div class="col-12 xl:col-6">
+      <p-panel header="Weekly Progress" styleClass="weekly-progress">
+          <ul>
+              <li>
+                  <div class="grid">
+                      <div class="col-12 md:col-4">
+                          <img src="../../assets/layout/images/dashboard/avatar-brenda.png" alt="harmony-layout" class="member-avatar" />
+                          <div class="team-member">
+                              <span class="member-name">Brenda Soto</span>
+                              <span class="member-role">DEVELOPMENT</span>
+                          </div>
+                      </div>
+                      <div class="col-12 md:col-8">
+                          <div class="progressbar">
+                              <div class="progress-status issue" style="width:32%">32%</div>
+                              <div class="progress-status commit" style="width:24%">24%</div>
+                              <div class="progress-status comment" style="width:44%">44%</div>
+                          </div>
+                      </div>
+                  </div>
+              </li>
+              <li>
+                  <div class="grid">
+                      <div class="col-12 md:col-4">
+                          <img src="../../assets/layout/images/dashboard/avatar-john.png" alt="harmony-layout" class="member-avatar" />
+                          <div class="team-member">
+                              <span class="member-name">John Swisher</span>
+                              <span class="member-role">DESIGN</span>
+                          </div>
+                      </div>
+                      <div class="col-12 md:col-8">
+                          <div class="progressbar">
+                              <div class="progress-status issue" style="width:26%">26%</div>
+                              <div class="progress-status commit" style="width:40%">40%</div>
+                              <div class="progress-status comment" style="width:34%">34%</div>
+                          </div>
+                      </div>
+                  </div>
+              </li>
+              <li>
+                  <div class="grid">
+                      <div class="col-12 md:col-4">
+                          <img src="../../assets/layout/images/dashboard/avatar-arlene.png" alt="harmony-layout" class="member-avatar" />
+                          <div class="team-member">
+                              <span class="member-name">Arlene Welch</span>
+                              <span class="member-role">BUSINESS</span>
+                          </div>
+                      </div>
+                      <div class="col-12 md:col-8">
+                          <div class="progressbar">
+                              <div class="progress-status issue" style="width:16%">16%</div>
+                              <div class="progress-status commit" style="width:23%">23%</div>
+                              <div class="progress-status comment" style="width:61%">61%</div>
+                          </div>
+                      </div>
+                  </div>
+              </li>
+              <li>
+                  <div class="grid">
+                      <div class="col-12 md:col-4">
+                          <img src="../../assets/layout/images/dashboard/avatar-warren.png" alt="harmony-layout" class="member-avatar" />
+                          <div class="team-member">
+                              <span class="member-name">Warren Shaw</span>
+                              <span class="member-role">DEVELOPMENT</span>
+                          </div>
+                      </div>
+                      <div class="col-12 md:col-8">
+                          <div class="progressbar">
+                              <div class="progress-status issue" style="width:20%">20%</div>
+                              <div class="progress-status commit" style="width:54%">54%</div>
+                              <div class="progress-status comment" style="width:26%">26%</div>
+                          </div>
+                      </div>
+                  </div>
+              </li>
+          </ul>
+      </p-panel>
+  </div>-->
+  <p-scrollTop target="window" styleClass="custom-scrolltop" [threshold]="100" icon="pi pi-arrow-up"></p-scrollTop>
+
+</div>
+

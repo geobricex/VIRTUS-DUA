@@ -1,0 +1,597 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <div class="grid">
+        <div class="xl:col-9 lg:col-6 sm:col-6">
+          <h4 class="mt-2">{{evaluationObject.name_evaluation}}</h4>
+        </div>
+        <!--div class="xl:col-1 md:col-2 sm:col-2 text-center border-right-1 line-height-3">
+          <span>Total</span> <br>
+          <span> <strong>3</strong> </span>
+        </div-->
+        <!--div class="xl:col-1 md:col-2 sm:col-2 text-center border-right-1 line-height-3">
+          <span>Puntos</span> <br>
+          <span><strong>{{totalPuntos()}}</strong></span>
+        </div-->
+        <div class="xl:col-1 md:col-2 sm:col-2 text-center border-right-1 line-height-3">
+          <span>Resueltas</span> <br>
+          <span><strong>{{getCountResueltas()}}</strong></span>
+        </div>
+        <div class="xl:col-1 md:col-2 sm:col-2 text-center border-right-1 line-height-3">
+          <span>Tiempo</span> <br>
+          <span><strong>{{miliseguntos2Segundos(tiempoEvaluacion)}}</strong></span>
+        </div>
+        <div class="xl:col-1 md:col-2 sm:col-2 text-center">
+          <button id="evt_control_enviar" pButton pRipple label="Enviar"
+                  (click)="enviarEvaluacion()" class="p-button-success mt-2">
+<!--                  [disabled]="indexQuestionObject < evaluationObject.questions_.length - 1"-->
+          </button>
+        </div>
+        <div class="col-12 p-fieldset-content">
+          <p>{{evaluationObject.description_evaluation}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12" *ngIf="this.app.voiceCommand">
+    <p-messages severity="warn" [enableService]="true" *ngIf="!voiceComandsSupport()">
+      <ng-template pTemplate>
+        <img src="assets/imgresource/empty/notification.png" width="75"/>
+        <div class="ml-2">Actualmente tenemos problemas de compatibilidad.<br/>En este navegador <strong>no podrás usar
+          los comandos de voz</strong>.
+        </div>
+      </ng-template>
+    </p-messages>
+  </div>
+  <div [ngClass]="viewQuestionBank ? 'col-6 md:col-1' : 'col-6 md:col-3'">
+    <div class="card animated fadeInDown" style="height: 100%">
+      <div class="text-center" *ngIf="viewQuestionBank">
+        <button pButton icon="pi pi-angle-right" class="p-button p-button-rounded p-button-outlined"
+                (click)="openClose()"></button>
+      </div>
+      <div *ngIf="!viewQuestionBank">
+        <button id="evt_control_bancos" pButton icon="pi pi-angle-left"
+                class="p-button p-button-rounded p-button-outlined"
+                (click)="openClose()" style="float: right; margin-top: -5px"></button>
+        <h5>Banco de preguntas</h5>
+        <p-panel header="Preguntas" *ngIf="evaluationObject.order_category == false">
+          <div *ngFor="let question of evaluationObject.questions_; let i2 = index">
+            <div class="bg-gray-100 p-2 hover:bg-blue-100 cursor-pointer mb-2">
+              <span> {{"N°" + (i2 + 1)}} </span>
+              <i
+                class="pi pi-circle-on mt-1 text-sm {{validarPreguntaResuelta(question)?'text-green-600': 'text-pink-600'}}"
+                style="float: right"></i>
+            </div>
+          </div>
+        </p-panel>
+        <p-accordion *ngIf="evaluationObject.order_category == true">
+          <p-accordionTab header="Verdadero o Falso" [selected]="true" class="line-height-3 m-0"
+                          *ngIf="contarTipoPregunta(1) > 0">
+            <div *ngFor="let question of evaluationObject.questions_; let i2 = index">
+              <div *ngIf="question.name_questioncategory == tipoPregunta(1)"
+                   class="bg-gray-100 p-2 hover:bg-blue-100 cursor-pointer mb-2"
+                   (click)="cambiarPregunta(i2)">
+                <span> {{"N°" + (i2 + 1)}} </span>
+                <i
+                  class="pi pi-circle-on mt-1 text-sm {{validarPreguntaResuelta(question)?'text-green-600': 'text-pink-600'}}"
+                  style="float: right"></i>
+              </div>
+            </div>
+          </p-accordionTab>
+          <p-accordionTab header="Opción única" [selected]="true" class="line-height-3 m-0"
+                          *ngIf="contarTipoPregunta(2) > 0">
+            <div *ngFor="let question of evaluationObject.questions_; let i2 = index">
+              <div *ngIf="question.name_questioncategory == tipoPregunta(2)"
+                   class="bg-gray-100 p-2 hover:bg-blue-100 cursor-pointer mb-2"
+                   (click)="cambiarPregunta(i2)">
+                <span> {{"N°" + (i2 + 1)}} </span>
+                <i
+                  class="pi pi-circle-on mt-1 text-sm {{validarPreguntaResuelta(question)?'text-green-600': 'text-pink-600'}}"
+                  style="float: right"></i>
+              </div>
+            </div>
+          </p-accordionTab>
+          <p-accordionTab header="Opción multiples" [selected]="true" class="line-height-3 m-0"
+                          *ngIf="contarTipoPregunta(3) > 0">
+            <div *ngFor="let question of evaluationObject.questions_; let i2 = index">
+              <div *ngIf="question.name_questioncategory == tipoPregunta(3)"
+                   class="bg-gray-100 p-2 hover:bg-blue-100 cursor-pointer mb-2"
+                   (click)="cambiarPregunta(i2)">
+                <span> {{"N°" + (i2 + 1)}} </span>
+                <i
+                  class="pi pi-circle-on mt-1 text-sm {{validarPreguntaResuelta(question)?'text-green-600': 'text-pink-600'}}"
+                  style="float: right"></i>
+              </div>
+            </div>
+          </p-accordionTab>
+          <p-accordionTab header="Contruir la Palabra" [selected]="true" class="line-height-3 m-0"
+                          *ngIf="contarTipoPregunta(7) > 0">
+            <div *ngFor="let question of evaluationObject.questions_; let i2 = index">
+              <div *ngIf="question.name_questioncategory == tipoPregunta(7)"
+                   class="bg-gray-100 p-2 hover:bg-blue-100 cursor-pointer mb-2"
+                   (click)="cambiarPregunta(i2)">
+                <span> {{"N°" + (i2 + 1)}} </span>
+                <i
+                  class="pi pi-circle-on mt-1 text-sm {{validarPreguntaResuelta(question)?'text-green-600': 'text-pink-600'}}"
+                  style="float: right"></i>
+              </div>
+            </div>
+          </p-accordionTab>
+          <p-accordionTab header="Complete" [selected]="true" class="line-height-3 m-0"
+                          *ngIf="contarTipoPregunta(4) > 0">
+            <div *ngFor="let question of evaluationObject.questions_; let i2 = index">
+              <div *ngIf="question.name_questioncategory == tipoPregunta(4)"
+                   class="bg-gray-100 p-2 hover:bg-blue-100 cursor-pointer mb-2"
+                   (click)="cambiarPregunta(i2)"
+                   (click)="cambiarPregunta(i2)">
+                <span> {{"N°" + (i2 + 1)}} </span>
+                <i
+                  class="pi pi-circle-on mt-1 text-sm {{validarPreguntaResuelta(question)?'text-green-600': 'text-pink-600'}}"
+                  style="float: right"></i>
+              </div>
+            </div>
+          </p-accordionTab>
+          <p-accordionTab header="Relación" [selected]="true" class="line-height-3 m-0"
+                          *ngIf="contarTipoPregunta(5) > 0">
+            <div *ngFor="let question of evaluationObject.questions_; let i2 = index">
+              <div *ngIf="question.name_questioncategory == tipoPregunta(5)"
+                   class="bg-gray-100 p-2 hover:bg-blue-100 cursor-pointer mb-2"
+                   (click)="cambiarPregunta(i2)">
+                <span> {{"N°" + (i2 + 1)}} </span>
+                <i
+                  class="pi pi-circle-on mt-1 text-sm {{validarPreguntaResuelta(question)?'text-green-600': 'text-pink-600'}}"
+                  style="float: right"></i>
+              </div>
+            </div>
+          </p-accordionTab>
+          <p-accordionTab header="Puzzle" [selected]="true" class="line-height-3 m-0"
+                          *ngIf="contarTipoPregunta(6) > 0">
+            <div *ngFor="let question of evaluationObject.questions_; let i2 = index">
+              <div *ngIf="question.name_questioncategory == tipoPregunta(6)"
+                   class="bg-gray-100 p-2 hover:bg-blue-100 cursor-pointer mb-2"
+                   (click)="cambiarPregunta(i2)">
+                <span> {{"N°" + (i2 + 1)}} </span>
+                <i
+                  class="pi pi-circle-on mt-1 text-sm {{validarPreguntaResuelta(question)?'text-green-600': 'text-pink-600'}}"
+                  style="float: right"></i>
+              </div>
+            </div>
+          </p-accordionTab>
+
+        </p-accordion>
+        <!--      <div class="xl:col-12 md:col-12 sm:col-12 text-center">-->
+        <!--        <span>Total Puntos: </span> <span><strong>{{totalPuntos()}}</strong></span>-->
+        <!--      </div>-->
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 md:col-9" [ngClass]="!viewQuestionBank ? 'col-12 md:col-9' : 'col-12 md:col-11'" >
+    <div class="card">
+      <!--      <div class="col">-->
+      <!--        <p-progressBar [value]="valueProgress" [showValue]="false"></p-progressBar>-->
+      <!--      </div>-->
+      <h4> {{'Pregunta N° ' + (indexQuestionObject + 1 || 0) + ' : ' + questionObject.title_question}} </h4>
+
+      <p-chip label="{{getNivelQuestion(questionObject.level_question || 1)}}"
+              image="{{'assets/imgresource/emojis/lvl'+(questionObject.level_question|| 1)+'.png'}}"
+      ></p-chip>
+      <p-chip *ngIf="questionObject.points_question == false" label="Piloto"
+              image="{{'assets/imgresource/empty/shield.png'}}"
+      ></p-chip>
+      <div *ngIf="validarPreguntaRecurso(questionObject.pathurlfile_question)" class="col-12">
+        <div class="col-12 text-center">
+          <object type="application/pdf" *ngIf="isPdf(questionObject.pathurlfile_question)"
+                  data="{{questionObject.pathurlfile_question || '../../assets/layout/images/imagesVirtus/logoBVirtus.svg'}}"
+                  height="200">
+          </object>
+          <img [src]="questionObject.pathurlfile_question" height="200"
+               *ngIf="isImg(questionObject.pathurlfile_question)">
+        </div>
+        <div class="col-12 text-center">
+          <div class="p-buttonset">
+            <a pButton pRipple icon="pi pi-download" href="{{questionObject.pathurlfile_question}}"
+               [download]="questionObject.pathurlfile_question" target="_blank" label="Descargar Recurso"
+               class="p-button-rounded p-button-primary mr-2 mb-2"
+            ></a>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="validarPreguntaRecurso(questionObject.pathurlvideo_question)" class="col-12">
+        <div class="col-12 text-center">
+          <video id="pathurlvideo_question" height="300" controls [src]="questionObject.pathurlvideo_question"
+                 [autoplay]="false">
+          </video>
+        </div>
+        <div class="col-12 text-center">
+          <div class="p-buttonset">
+            <button id="reproducir_video_rec" pButton pRipple icon="pi pi-play"
+                    class="p-button-rounded p-button-warning mr-2 mb-2"
+                    (click)="playVideo()"></button>
+            <button id="pausar_video_rec" pButton pRipple icon="pi pi-pause"
+                    class="p-button-rounded p-button-info mr-2 mb-2"
+                    (click)="pauseVideo()"></button>
+            <button id="silenciar_video_rec" pButton pRipple icon="pi pi-volume-up"
+                    class="p-button-rounded p-button-success mr-2 mb-2"
+                    (click)="mutedVideo()"></button>
+          </div>
+        </div>
+      </div>
+
+      <h5>{{questionObject.description_question}}</h5>
+      <div style="margin-bottom: 10px;">
+        <p-button id="evt_control_repetir" label="Repetir enunciado de la pregunta"
+                  icon="pi pi-volume-up" styleClass="p-button-sm" (click)="repetirPregunta()"></p-button>
+      </div>
+      <!--verdadero o falso-->
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(1) && !questionObject.canResource">
+        <div *ngFor="let option of questionObject.answers_[0].options_answer; let i = index">
+          <div class="field-radiobutton">
+            <p-radioButton [inputId]="'option_vf_' + alphabet[i]" name="Simple_Option" [value]="option"
+                           [(ngModel)]="questionObject.answers_[0].responses"
+                           (onClick)="changeRadio(i)"></p-radioButton>
+            <label [for]="'option_vf_' + alphabet[i]">{{alphabet[i].toUpperCase() + ")\t" + option.opcion}}</label>
+          </div>
+        </div>
+      </div>
+      <!--Selección unica normal-->
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(2) && !questionObject.canResource">
+        <div *ngFor="let option of questionObject.answers_[0].options_answer; let i = index">
+          <div class="field-radiobutton">
+            <p-radioButton [inputId]="'option_rd_' + alphabet[i]" name="Simple_Option" [value]="option"
+                           [(ngModel)]="questionObject.answers_[0].responses"
+                           (onClick)="changeRadio(i)"></p-radioButton>
+            <label [for]="'option_rd_' + alphabet[i]">{{alphabet[i].toUpperCase() + ")\t" + option.opcion}}</label>
+          </div>
+        </div>
+      </div>
+      <!--Selección unica normal con imagenes-->
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(2) && questionObject.canResource"
+           class="flex align-items-center justify-content-center">
+
+        <p-card *ngFor="let option of questionObject.answers_[0].options_answer; let i = index"
+                [attr.data-index]="i" [style]="{width: '120px'}" styleClass="p-card-shadow">
+          <ng-template pTemplate="header">
+            <img class="img-color img-size" alt="Card" [src]="option.resource">
+          </ng-template>
+          <p>{{option.opcion}}</p>
+          <ng-template pTemplate="footer">
+            <div class="field-radiobutton">
+              <p-radioButton [inputId]="'option_rd_2_' + alphabet[i]" name="Simple_Option_img" [value]="option"
+                             [(ngModel)]="questionObject.answers_[0].responses"
+                             (onClick)="changeRadio(i)"></p-radioButton>
+              <label
+                [for]="'option_rd_2_' + alphabet[i]"><strong>{{'Literal ' + alphabet[i].toUpperCase()}}</strong></label>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+      <!--Selección múltiple normal-->
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(3) && !questionObject.canResource">
+        <div *ngFor="let option of questionObject.answers_[0].options_answer; let i = index"
+             [attr.data-index]="i">
+          <div class="field-radiobutton">
+            <p-checkbox [inputId]="'option_ck_' + alphabet[i]" name="multiple_Option" [value]="option"
+                        [(ngModel)]="questionObject.answers_[0].responses"
+                        (click)="changeRadio(i)"></p-checkbox>
+            <label [for]="'option_ck_' + alphabet[i]">{{alphabet[i].toUpperCase() + ")\t" + option.opcion}}</label>
+          </div>
+        </div>
+      </div>
+      <!--Selección múltiple normal con imagenes-->
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(3) && questionObject.canResource"
+           class="flex align-items-center justify-content-center">
+
+        <p-card *ngFor="let option of questionObject.answers_[0].options_answer; let i = index"
+                [attr.data-index]="i" [style]="{width: '120px'}" styleClass="p-card-shadow">
+          <ng-template pTemplate="header">
+            <img alt="Card" [src]="option.resource" width="100">
+          </ng-template>
+          <p>{{option.opcion}}</p>
+          <ng-template pTemplate="footer">
+            <div class="field-radiobutton">
+              <p-checkbox [inputId]="'option_ck_2_' + alphabet[i]" name="multiple_Option_img" [value]="option"
+                          [(ngModel)]="questionObject.answers_[0].responses"
+                          (click)="changeRadio(i)"></p-checkbox>
+              <label
+                [for]="'option_ck_2_' + alphabet[i]"><strong>{{'Literal ' + alphabet[i].toUpperCase()}}</strong></label>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(4) && !questionObject.canResource">
+        <div *ngFor="let option of questionObject.answers_[0].options_answer; let i = index"
+             [attr.data-index]="i">
+          <div class="flex-auto">
+            <span *ngFor="let wg of questionObject.answers_[0].complete_parts; let ic = index"
+                  [attr.data-index]="ic"
+                  [style]="{color: (wg == '$option$'?'#FF0000':'#000'), 'font-weight': (wg == '$option$'?'bold;':'normal;')}">
+                {{wg != '$option$' ? wg : ('(')}}
+              <!--                <input type="text" pInputText *ngIf="wg == '$option$'"/>-->
+              <!--                no tiene imagenes-->
+                <p-dropdown [inputId]="'relation_input_' + ic"
+                            [options]="option.options"
+                            [(ngModel)]="questionObject.answers_[0].options_answer[0].response[ic]"
+                            optionLabel="option" placeholder=" -- Seleccione una opcíón --"
+                            *ngIf="wg == '$option$'" [filter]="true" filterBy="rightSide"
+                            [showClear]="true" [style]="{'minWidth':'20vw', 'width': '20vw'}"
+                >
+                  <ng-template pTemplate="selectedItem">
+                    <div class="country-item country-item-value"
+                         *ngIf="questionObject.answers_[0].options_answer[0].response[ic]">
+                      <img [src]="questionObject.answers_[0].options_answer[0].response[ic].resource" height="25"
+                           [class]="'flag flag-FR'"
+                           *ngIf="questionObject.answers_[0].options_answer[0].response[ic].resource.length > 0"
+                      />
+                      <div>{{questionObject.answers_[0].options_answer[0].response[ic].option}}</div>
+                    </div>
+                    </ng-template>
+                    <ng-template let-option pTemplate="item">
+                      <div class="ui-helper-clearfix template-border">
+                        <img [src]="option.resource" [class]="'flag flag-FR'" alt=""
+                             *ngIf="option.resource.length > 0"/>
+                        <div>{{option.option}}</div>
+                      </div>
+                    </ng-template>
+                </p-dropdown>
+              <!--                Tiene imagenes-->
+              {{wg != '$option$' ? '' : ') '}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12" style="display: flex;align-items: center;justify-content: center;"
+           [hidden]="questionObject.name_questioncategory != tipoPregunta(5)" [style.display]="questionObject.name_questioncategory == tipoPregunta(5) ? 'flex': 'none'" >
+        <!--        <canvas #canvasEl id="canvasEl" [hidden]="questionObject.name_questioncategory == tipoPregunta(5)"-->
+        <!--                width="450" height="85"></canvas>-->
+        <canvas #canvasLineas id="canvasLineas" [hidden]="questionObject.name_questioncategory != tipoPregunta(5)"
+                width="700" height="400"></canvas>
+      </div>
+
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(5)">
+        <p-fieldset legend="Selecciona las opciones" [toggleable]="true">
+          <!--        <div class="flex align-items-center justify-content-between">-->
+          <div class="grid justify-content-between"
+               *ngFor="let option of questionObject.answers_[0].options_answer; let i = index"
+               [attr.data-index]="i">
+            <div class="col-12 md:col-8 justify-content-end grid">
+              <div class="col-12 md:col-{{option.resourse_leftSide.length > 0?'4':'0'}} justify-content-center">
+                <img class="img-color img-size" alt="Card" *ngIf="option.resourse_leftSide.length > 0"
+                     [src]="option.resourse_leftSide" height="100">
+              </div>
+              <div class="col-12 md:col-{{option.resourse_leftSide.length > 0?'8':'12'}} justify-content-start">
+                <p>{{alphabet[i].toUpperCase() + ")\t" + (option.leftSide.length > 0 ? option.leftSide : '')}}</p>
+              </div>
+            </div>
+            <div class="col-12 md:col-4">
+              <p-dropdown [inputId]="'relation_input_' + i"
+                          [options]="questionObject.answers_[0].right_parts!"
+                          [(ngModel)]="questionObject.answers_[0].responses[i]"
+                          optionLabel="rightSide" [filter]="true" filterBy="rightSide"
+                          [showClear]="true" placeholder=" -- - --" [style]="{'minWidth':'20vw', 'width': '20vw'}"
+              >
+                <ng-template pTemplate="selectedItem">
+                  <div class="country-item country-item-value" *ngIf="questionObject.answers_[0].responses[i]">
+                    <img [src]="questionObject.answers_[0].responses[i].resourse_rightSide" height="25"
+                         [class]="'flag flag-FR'" *ngIf="questionObject.answers_[0].responses[i].resourse_rightSide"
+                    />
+                    <div>{{questionObject.answers_[0].responses[i].rightSide}}</div>
+                  </div>
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                  <div class="ui-helper-clearfix template-border">
+                    <img [src]="item.resourse_rightSide" [class]="'flag flag-FR'" alt=""/>
+                    <div>{{alphabet[item.ind].toUpperCase() + ".\t" + (item.rightSide.length > 0 ? item.rightSide : 'Opción')}}</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="col-12 justify-content-center align-content-center" style="padding-top: 0px;"
+                 *ngIf="i < questionObject.answers_[0].options_answer.length - 1">
+              <p-divider></p-divider>
+            </div>
+          </div>
+        </p-fieldset>
+      </div>
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(6)">
+        <div class="col-12" *ngIf="this.app.voiceCommand">
+          <p-messages severity="warn" [enableService]="true" [closable]="true">
+            <ng-template pTemplate>
+              <img src="assets/imgresource/empty/notification.png" width="25"
+              />
+              <div class="ml-2">Actualmente este tipo de preguntas <strong>no soporta</strong> caracteristicas de
+                accesibilidad como comandos de voz, acceso por teclado u otros.
+              </div>
+            </ng-template>
+          </p-messages>
+        </div>
+        <div class="flex align-items-center justify-content-center">
+          <img class="img-color" alt="Card" [src]="questionObject.answers_[0].options_answer[0].resource" height="150">
+        </div>
+        <h5>Puzzle:</h5>
+        <div class="centar-botones">
+          <div *ngFor="let rowImgPz of tmpPuzzle.arrayImagePuzzle; let y = index">
+            <button pButton pRipple *ngFor="let elem of rowImgPz; let x = index"
+                    class="p-button-info" [ngClass]="!tmpPuzzle.isActive(x, y) ? 'p-button-outlined': ''"
+                    style="padding: 1px!important;" (click)="tmpPuzzle.mover(x, y)">
+              <img [src]="elem"/>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="questionObject.name_questioncategory == tipoPregunta(7)">
+        <div class="col-12" *ngIf="this.app.voiceCommand">
+          <p-messages severity="warn" [enableService]="true" [closable]="true">
+            <ng-template pTemplate>
+              <img src="assets/imgresource/empty/notification.png" width="25"/>
+              <div class="ml-2">Actualmente este tipo de preguntas <strong>no soporta</strong> caracteristicas de
+                accesibilidad como comandos de voz, acceso por teclado u otros.
+              </div>
+            </ng-template>
+          </p-messages>
+        </div>
+        <h5>Palabra:</h5>
+        <div class="centar-botones">
+          <button pButton pRipple
+                  *ngFor="let option of questionObject.answers_[0].options_answer[0].opcion.toString().split(''); let i = index"
+                  class="p-button-info" [ngClass]="i != palabra.release ? 'p-button-outlined': ''"
+                  [disabled]="showLetra(option, i) == 'space'" (click)="clickUp(i)">
+            <img height="35" [src]="'assets/imgresource/alfabeto/' + showLetra(option, i) + '.png'"/>
+          </button>
+        </div>
+
+        <div class="col-12 justify-content-center align-content-center" style="margin-bottom: 50px!important;">
+          <h5>Alfabeto español</h5>
+          <div class="centar-botones">
+            <button pButton pRipple *ngFor="let letra of alphabet; let indL = index;" [attr.data-index]="indL"
+                    class="p-button-info" [ngClass]="indL != palabra.press ? 'p-button-outlined': ''"
+                    (click)="clickDown(indL)">
+              <img height="35" [src]="'assets/imgresource/alfabeto/' + letra + '.png'"/>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!--      </div>-->
+      <!--Recursos para dibujar-->
+      <p-fieldset legend="Raya el correcto" [toggleable]="true"
+                  [hidden]="questionObject.name_questioncategory == tipoPregunta(7) ||
+          questionObject.name_questioncategory == tipoPregunta(6) ||
+           questionObject.name_questioncategory == tipoPregunta(5)">
+        <div *ngIf="questionObject.name_questioncategory == tipoPregunta(4)">
+          <div class="col-12">
+            <p-messages severity="info" [enableService]="true">
+              <ng-template pTemplate>
+                <strong>Opciones: </strong>
+                <p-chip *ngFor="let option of questionObject.answers_[0].options_answer[0].options!; let i = index"
+                        [attr.data-index]="i"
+                        label="{{alphabet[i] + '. ' + option.option}}"
+                        image="{{option.resource.length > 0 ? option.resource :
+                        'assets/imgresource/empty/notification.png'}}" styleClass="mr-2"
+                        [style]="{'text-decoration': 'underline'}"
+                ></p-chip>
+              </ng-template>
+            </p-messages>
+          </div>
+        </div>
+        <div *ngIf="questionObject.name_questioncategory == tipoPregunta(5)">
+          <div class="col-12">
+            <p-messages severity="info" [enableService]="false">
+              <ng-template pTemplate>
+                <div class="grid justify-content-between">
+                  <div class="col-12">
+                    <strong>Literales:{{'\t'}} </strong>
+                    <p-chip *ngFor="let option of questionObject.answers_[0].options_answer!; let i = index"
+                            [attr.data-index]="i"
+                            label="{{alphabet[i] + '. ' + option.leftSide}}"
+                            image="{{option.resourse_leftSide.length > 0 ? option.resourse_leftSide :
+                      'assets/imgresource/empty/notification.png'}}" styleClass="mr-2"
+                            [style]="{'text-decoration': 'underline'}"
+                    ></p-chip>
+                  </div>
+                  <div class="col-12">
+                    <strong>Opciones:{{'\t'}} </strong>
+                    <p-chip *ngFor="let option of questionObject.answers_[0].right_parts!; let i = index"
+                            [attr.data-index]="i"
+                            label="{{alphabet[i] + '. ' + option.rightSide}}"
+                            image="{{option.resourse_rightSide.length > 0 ? option.resourse_rightSide :
+                        'assets/imgresource/empty/notification.png'}}" styleClass="mr-2"
+                            [style]="{'text-decoration': 'underline'}"
+                    ></p-chip>
+                  </div>
+
+                </div>
+              </ng-template>
+            </p-messages>
+          </div>
+        </div>
+        <div class="col-12" style="display: flex;align-items: center;justify-content: center;">
+          <canvas #canvasEl id="canvasEl" [hidden]="questionObject.name_questioncategory == tipoPregunta(5)"
+                  width="450" height="85"></canvas>
+          <!--          <canvas #canvasLineas id="canvasLineas" [hidden]="questionObject.name_questioncategory != tipoPregunta(5)"-->
+          <!--                  width="700" height="400"></canvas>-->
+        </div>
+        <div class="col-12" style="display: flex;align-items: center;justify-content: center;">
+          <div id="div_puzzle"></div>
+        </div>
+      </p-fieldset>
+      <hr>
+      <div class="text-left">
+        <button pButton pRipple icon="pi pi-step-backward-alt" label="Anterior"
+                *ngIf="indexQuestionObject > 0"
+                class="p-button-info mr-2 mb-2" (click)="anteriorPregunta()"></button>
+      </div>
+      <div class="text-right">
+        <button pButton pRipple icon="pi pi-step-forward" id="evt_control_siguiente" label="Siguiente"
+                class="p-button-info mr-2 mb-2"
+                *ngIf="indexQuestionObject < evaluationObject.questions_.length - 1"
+                (click)="siguientePregunta()"></button>
+      </div>
+    </div>
+  </div>
+  <p-scrollTop target="window" styleClass="custom-scrolltop" [threshold]="100" icon="pi pi-arrow-up"></p-scrollTop>
+</div>
+<!--Componente de video para lenguaje de señas-->
+<div class="video_sign_float" *ngIf="validarPreguntaRecurso(questionObject.pathurlsign_question)"
+     [ngStyle]="{'background':vistaVideoSenias?'#2d3f47':'rgba(0,0,0,0)'}"
+>
+
+  <p-avatar id="evt_control_señas" *ngIf="!vistaVideoSenias" (click)="vistaVideoSenias = true"
+            icon="pi pi-window-maximize" [style]="{'background-color':'#2196F3', 'color': '#ffffff'}" size="large"
+            shape="circle"></p-avatar>
+  <div *ngIf="vistaVideoSenias" class="col-12 text-center">
+    <p class="text-white"><strong>Recurso extra</strong></p>
+    <video id="pathurlsign_question" height="150" controls [src]="questionObject.pathurlsign_question"
+           [autoplay]="true" [muted]="true">
+    </video>
+  </div>
+  <div *ngIf="vistaVideoSenias" class="col-12 text-center">
+    <div class="p-buttonset">
+      <button id="reproducir_gestos" pButton pRipple icon="pi pi-play"
+              class="p-button-rounded p-button-warning mr-2 mb-2"
+              (click)="playSignVideo()"></button>
+      <button id="pausar_gestos" pButton pRipple icon="pi pi-pause" class="p-button-rounded p-button-info mr-2 mb-2"
+              (click)="pauseSignVideo()"></button>
+      <button id="silenciar_video_sing_rec" pButton pRipple icon="pi pi-volume-up"
+              class="p-button-rounded p-button-success mr-2 mb-2"
+              (click)="mutedSingVideo()"></button>
+      <button id="silenciar_gestos" pButton pRipple icon="pi pi-window-minimize"
+              class="p-button-rounded p-button-danger mr-2 mb-2"
+              (click)="vistaVideoSenias = false"></button>
+    </div>
+  </div>
+</div>
+<p-dialog header="{{sweetFakeAlert[1]?'¡Genial!':'¡Oh no...!'}}"
+          [(visible)]="sweetFakeAlert[0]" [modal]="true"
+          [draggable]="false" [resizable]="false" [style]="{width: '30vw'}"
+          [closable]="true">
+
+  <div class="col-12 text-center">
+    <img alt="Card"
+         src="{{sweetFakeAlert[1]?'assets/imgresource/empty/acierto.webp':'assets/imgresource/empty/pista.webp'}}"
+         width="250">
+  </div>
+  <div class="col-12 text-center"
+       *ngIf="(sweetFakeAlerttxt !== undefined && sweetFakeAlerttxt.length > 0)">
+    <p-tag styleClass="mr-2" severity="success"
+           value="{{sweetFakeAlert[1]?'¿Quieres saber porqué?':'Te daremos una pista'}}"></p-tag>
+  </div>
+  <div class="col-12 text-center">
+    <p class="justify-content-start">
+      {{sweetFakeAlerttxt}}
+    </p>
+  </div>
+</p-dialog>
+<p-dialog header="Finalizando..."
+          [(visible)]="sweetFakeAlertFin" [modal]="true"
+          [draggable]="false" [resizable]="false" [style]="{width: '30vw'}"
+          [closable]="true">
+
+  <div class="col-12 text-center">
+    <img alt="Card" src="assets/imgresource/empty/image_fin.webp" width="250">
+  </div>
+  <div class="col-12 text-center">
+    <p class="justify-content-start">
+      Su evaluación le ha tomado un estimado de {{miliseguntos2Segundos(calcularTiempos())}}
+    </p>
+  </div>
+</p-dialog>

@@ -1,0 +1,99 @@
+<p-toast key="tst" [baseZIndex]="99999"></p-toast>
+
+<div class="login-body" style="display: flex; justify-content: center;">
+  <div class="login-panel"
+       style="position: absolute; top: 50%; transform: translate(0, -50%); height: auto; display: flex;align-items: stretch;">
+    <div class="left-part">
+      <img src="assets/layout/images/imagesVirtus/logoVirtus.svg" alt="harmony-layout" class="mobile logoVirtus"/>
+      <span class="login-panel-header">Iniciar sesión en Virtus</span>
+      <span class="login-panel-subheader">Bienvenido, por favor utilice el formulario para ingresar a Virtus. <a
+        routerLink="/" class="text-blue-500"> Inicio </a> </span>
+      <form [formGroup]="frmLogin">
+        <div class="mt-3">
+          <div class="field">
+            <label>Correo electrónico:</label>
+            <input pInputText type="email" autocomplete="off" class="w-full" formControlName="email"/>
+          </div>
+          <div class="field">
+            <label>Ingrese Contraseña:</label>
+            <input type="password" autocomplete="new-password" pInputText feedback="false"
+                   class="w-full" formControlName="password"
+                   pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w\W]{6,16}$"
+            />
+          </div>
+        </div>
+      </form>
+      <button type="button" pButton label="Acceder" class="p-element p-button-raised w-full p-button p-component"
+              (click)="login()"
+              [disabled]="frmLogin.invalid"></button>
+      <div class="col-12 text-center">
+        <div class="text-center mb-2">
+          <!--          <button pButton class="mt-3 border-0" icon="pi pi-facebook" label="Facebook"-->
+          <!--                  style="background: #1771E6" (click)="loginWithFacebook()" ></button>-->
+          <button pButton class="ml-3 mt-3 border-0" icon="pi pi-google" label="Google"
+                  style="background: #DE4032" (click)="loginWithGoogle()"></button>
+        </div>
+        <span style="cursor: pointer" class="text-blue-500"
+              (click)="openDialogForgotPassword()"> ¿Olvido su contraseña?</span> <br>
+        <span> ¿No tiene una cuenta? </span> <a routerLink="/singup" class="text-green-500"> Registrarse </a>
+      </div>
+    </div>
+    <div class="right-part bg-blue-50 imgRight">
+    </div>
+  </div>
+  <p-scrollTop target="window" styleClass="custom-scrolltop" [threshold]="100" icon="pi pi-arrow-up"></p-scrollTop>
+
+</div>
+
+<p-dialog [(visible)]="forgotPassword_dialog" [style]="{width: '450px'}" header="Recuperar cuenta" [modal]="true"
+          class="p-fluid" [style.z-index]="1000" [style.position]="'absolute'">
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="email">Correo electrónico</label>
+      <input id="email" type="email" autocomplete="off" pInputText [(ngModel)]="user.email" class="w-full"/>
+    </div>
+    <span> ¿Ya tiene código de verificación? <span class="text-green-500" style="cursor: pointer"
+                                                   (click)="openDialogHasCode()"> click aquí. </span> </span>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-warning"
+            (click)="cancelRequestCode()"></button>
+    <button pButton pRipple label="Guardar cambios" icon="pi pi-check" class="p-button-success"
+            (click)="requestCode()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="alreadyHasCode" [style]="{width: '450px'}" header="Cambiar contrseña" [modal]="true"
+          class="p-fluid" [style.z-index]="1000" [style.position]="'absolute'">
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="emailhascode">Correo electrónico</label>
+      <input id="emailhascode" type="email" autocomplete="off" pInputText [(ngModel)]="user_rec" class="w-full"/>
+    </div>
+    <div class="field">
+      <label for="code">Código de verificación</label>
+      <input id="code" type="text" autocomplete="off" pInputText [(ngModel)]="code_rec" class="w-full"/>
+    </div>
+    <div class="field">
+      <label>Contraseña:</label>
+      <input type="password" autocomplete="off" pInputText [(ngModel)]="password_rec" class="w-full"
+             pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w\W]{6,16}$"
+             maxlength="16" minlength="6"
+             pTooltip="La contraseña debe tener entre 6 y 16 caracteres, al menos un dígito, al menos una
+                   minúscula, al menos una mayúscula y al menos un caracter no alfanumérico." tooltipPosition="right"
+      />
+    </div>
+    <div class="field">
+      <label>Confirmar contraseña:</label>
+      <input type="password" autocomplete="off" pInputText [(ngModel)]="password_conf_rec" class="w-full"
+             pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w\W]{6,16}$"
+      />
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-warning"
+            (click)="cancelRecoverAccount()"></button>
+    <button pButton pRipple label="Enviar código" icon="pi pi-check" class="p-button-success"
+            (click)="recoverAccount()" [disabled]="!esContraseniaValida()"></button>
+  </ng-template>
+</p-dialog>

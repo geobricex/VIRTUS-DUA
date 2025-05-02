@@ -1,0 +1,136 @@
+Verdadero o falso
+[
+      {
+         "opcion": "Verdadero",
+         "correct": "Yes"
+      },
+      {
+         "opcion": "Falso",
+         "correct": "No"
+      }
+]
+
+Opción Simple
+Opción simple
+
+[
+      {
+         "opcion": "Escribir",
+         "correct": "Yes",
+         "resource": ""
+
+      },
+      {
+         "opcion": "Comer",
+         "correct": "No",
+         "resource": ""
+      },  
+      {
+         "opcion": "Tomar bebidas",
+         "correct": "No",
+         "resource": ""
+      },
+      {
+         "opcion": "Ninguna de las anteriores",
+         "correct": "No",
+         "resource": ""
+      },
+      {
+         "opcion": "Todas las anteriores",
+         "correct": "No",
+         "resource": ""
+      }
+   ]
+
+Opción múltiple
+Opción múltiple 
+
+[
+      {
+         "opcion": "",
+         "correct": "Yes",
+         "resource": "https://aplicaciones.uteq.edu.ec:9549/api/files/EQnByY3S4e7H4Fg/LiDPPahidwF7SG6/1qSFndIK47UoiuSnN8cPxLTtw6cIdypP.jpeg"
+
+      },
+      {
+         "opcion": "",
+         "correct": "No",
+         "resource": "https://aplicaciones.uteq.edu.ec:9549/api/files/EQnByY3S4e7H4Fg/NyHfWnrIzg9O8gN/ztzXCrvlBamJ7kPjsmR8YUaqTyTDVEWV.jpg"
+      },
+      {
+         "opcion": "",
+         "correct": "No",
+         "resource": "https://aplicaciones.uteq.edu.ec:9549/api/files/EQnByY3S4e7H4Fg/giBtuo7vQVl9uID/XaeuOAHIYexdh2zeWTOofYIc0DPaEI8k.png"
+      },  
+      {
+         "opcion": "",
+         "correct": "Yes",
+         "resource": "https://aplicaciones.uteq.edu.ec:9549/api/files/EQnByY3S4e7H4Fg/7LwDskH1RA6fEpf/oBYgG7sQbhA8zW4GyGRDVS1LlunekkOl.png"
+      }
+   ]
+
+Relacionar
+
+[
+                       {
+                         "rightSide":"Monitor",
+                         "resourse_rightSide":"",
+                         "leftSide":"",                         "resourse_leftSide":"https://aplicaciones.uteq.edu.ec:9549/api/files/EQnByY3S4e7H4Fg/VlRSQeUvJjD6dtv/HpDs37BAy9FsqE7f7UIpHVUnITBabFGs.jpg"
+                       },{
+                         "rightSide":"Teclado",
+                         "resourse_rightSide":"",
+                         "leftSide":"",                         "resourse_leftSide":"https://aplicaciones.uteq.edu.ec:9549/api/files/EQnByY3S4e7H4Fg/Rn0bEESFoRaWsqo/yxb8lF4AwXB08RSyf6liDf0F8ZOXTJ8D.png"
+                       },{
+                         "rightSide":"Mouse",
+                         "resourse_rightSide":"",
+                         "leftSide":"",                         "resourse_leftSide":"https://aplicaciones.uteq.edu.ec:9549/api/files/EQnByY3S4e7H4Fg/ZHqPxlcCPP7nP8M/8RLt50eSWN2YRABJKFgI53OAEDtstQg9.jpg"
+                       },{
+                         "rightSide":"Audifonos",
+                         "resourse_rightSide":"",
+                         "leftSide":"",                         "resourse_leftSide":"https://aplicaciones.uteq.edu.ec:9549/api/files/EQnByY3S4e7H4Fg/4b2aTKbPK0nWScQ/2oGyTY5u5Tq90kMAu6M0B6eUqyPHsn3d.jpg"
+                       }
+                       
+   ]
+
+
+Complete
+[
+      {
+         "description_question": "El computador es una máquina {$option$} diseñada para la manipulación y procesamiento de {$option$}.",
+         "description_question_R": "El computador es una máquina electrónica diseñada para la manipulación y procesamiento de datos.",
+         "options": [
+                       {
+                         "option":"electrónica",
+                         "resource":""
+                       },
+                       {
+                         "option":"datos",
+                         "resource":""
+                       },
+                       {
+                         "option":"asesina",
+                         "resource":""
+                       },
+                       {
+                         "option":"comida",
+                         "resource":""
+ 
+                       }
+                    ]
+
+      }
+   ]
+
+Armar la palabra
+{
+  "opcion": "EL TECLADO"
+}
+
+Puzzle
+{
+  "resource": "https://aplicaciones.uteq.edu.ec:9549/api/files/EQnByY3S4e7H4Fg/4b2aTKbPK0nWScQ/2oGyTY5u5Tq90kMAu6M0B6eUqyPHsn3d.jpg", 
+  "piece_questionarie":16
+}
+
+
+

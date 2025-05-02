@@ -1,0 +1,23 @@
+
+.imgRight {
+  width: 50%;
+  box-sizing: border-box;
+  padding: 36px 75px 36px 36px;
+  background: url('../../assets/layout/images/imagesVirtus/nuevoFondoLogin.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  display: block;
+}
+
+@media screen and (max-width: 768px) {
+  .logoVirtus {
+    width: 45% !important;
+    margin: auto;
+    margin-bottom: 1rem;
+  }
+
+  .imgRight {
+    display: none;
+  }
+}

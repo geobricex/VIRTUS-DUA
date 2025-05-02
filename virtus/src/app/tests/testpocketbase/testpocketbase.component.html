@@ -1,0 +1,16 @@
+<p>testpocketbase works!</p>
+<div [formGroup]="myGroup">
+  <label for="file">archivo</label>
+  <input formControlName="firstName" type="file" (change)="onFileChange($event)">
+  <button class="btn btn-primary" type="button" (click)="guardarArchivo()">Guardar</button>
+</div>
+
+<ul>
+  <li *ngFor="let elementImg of elementsImg">
+    <img src="{{makePathRecurso(elementImg)}}" alt="alt">
+  </li>
+</ul>
+
+<textarea name="" id="" cols="30" rows="10"></textarea>
+<canvas id="canvasLineas"
+        width="700" height="400"></canvas>

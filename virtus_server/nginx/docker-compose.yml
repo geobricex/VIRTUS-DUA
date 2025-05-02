@@ -1,0 +1,16 @@
+version: '3'
+services:
+  nginx_ssl:
+    container_name: nginx_img
+    #hostname: reverse
+    image: nginx
+    ports:
+      - 8082:80
+      - 8083:443
+    volumes:
+      - ./config/default.conf:/etc/nginx/nginx.conf
+      - ./ssl:/ssl/
+      - ./html/:/var/www/html
+      - ./logs:/logs
+    restart: always
+

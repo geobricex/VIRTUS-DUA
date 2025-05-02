@@ -1,0 +1,32 @@
+version: '3'
+services:
+  angular:
+    container_name: virtus_angular
+    image: virtus/harmony
+    #ports:
+    #  - 9000:4200
+    command: "ng serve --host 0.0.0.0 --disable-host-check"
+    restart: always
+    networks:
+      - virtus_bridge
+
+  nginx_ssl:
+    container_name: virtus_nginx
+    #hostname: reverse
+    image: nginx
+    tty: true
+    ports:
+      - 9000:443
+    volumes:
+      - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/ssl/
+      - ./nginx/html/:/var/www/html
+      - ./nginx/logs:/etc/nginx/logs
+    restart: always
+    depends_on:
+      - angular
+    networks:
+      - virtus_bridge
+networks:
+  virtus_bridge:
+    driver: bridge

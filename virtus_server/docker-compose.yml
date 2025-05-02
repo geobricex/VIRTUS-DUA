@@ -1,0 +1,31 @@
+version: '3'
+services:
+  tomcat9:
+    container_name: tomcat9
+    image: tomcat:9.0
+    volumes: 
+      - ./tomcat/webapps:/usr/local/tomcat/webapps
+      - ./tomcat/config:/usr/local/tomcat/conf
+    ports:
+      - 8087:8080
+    networks:
+      - tomcat9_network
+  nginx_ssl:
+    container_name: nginx_img
+    #hostname: reverse
+    image: nginx
+    ports:
+      - 8082:80
+      - 8083:443
+    volumes:
+      - ./nginx/config/default.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/ssl/
+      - ./nginx/html/:/var/www/html
+      - ./nginx/logs:/logs
+    networks:
+      - tomcat9_network
+    restart: always
+
+networks:
+  tomcat9_network:
+    driver: bridge

@@ -1,0 +1,10 @@
+version: '3'
+services:
+  tomcat9:
+    container_name: tomcat9
+    image: tomcat:9.0
+    volumes: 
+      - ./webapps:/usr/local/tomcat/webapps
+      - ./config:/usr/local/tomcat/conf
+    ports:
+      - 8087:8080

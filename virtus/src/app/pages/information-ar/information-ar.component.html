@@ -1,0 +1,162 @@
+<div class="card">
+  <p-tabView orientation="left">
+    <p-tabPanel header="Manual de Administración" class="line-height-3 m-0">
+      <div class="w-full">
+        <pdf-viewer src="assets/handbook/Manual%20VIRTUS%20-%20UTEQ%20(ver.%202023)%20-%20Admin.pdf"
+                    [zoom-scale]="'page-width'"
+                    [page]=""
+                    [zoom]="0.5">
+        </pdf-viewer>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Videos" class="line-height-3 m-0">
+
+      <div id="multimedia">
+        <div>
+          <h4>Promocional</h4>
+          <div class="video-container">
+            <video class='video-tuto' width="600" controls preload='none' draggable="true" style="width: auto;max-width: 600px"
+                   poster="../../assets/layout/images/imagesVirtus/logoVirtus.svg">
+              <source id='mp4'
+                      src="https://fyc.uteq.edu.ec/pocketbase/api/files/R0BDS4ixyAqvSUv/UwTqFtOfqYN9OvD/4MwMTzgbuzRdN1y2o1nCEOa78t3tvL6L.mp4"
+                      type='video/mp4'/>
+            </video>
+          </div>
+        </div>
+      </div>
+      <hr/>
+      <div id="multimedia2">
+        <div>
+          <h4>Manejo administrador</h4>
+          <div class="video-container">
+            <video class='video-tuto' width="600" controls preload='none' draggable="true" style="width: auto;max-width: 600px"
+                   poster="../../assets/layout/images/imagesVirtus/logoVirtus.svg">
+              <source id='mp4'
+                      src="https://fyc.uteq.edu.ec/pocketbase/api/files/R0BDS4ixyAqvSUv/SIrdVx1EvJu8FVY/iTE75sHqWoWKDInsupoPG2vAPA4I4VFK.mp4"
+                      type='video/mp4'/>
+            </video>
+          </div>
+        </div>
+      </div>
+      <hr/>
+      <div id="multimedia3">
+        <div>
+          <h4>Manejo servidor</h4>
+          <div class="video-container">
+            <video class='video-tuto' width="600" controls preload='none' draggable="true" style="width: auto;max-width: 600px"
+                   poster="../../assets/layout/images/imagesVirtus/logoVirtus.svg">
+              <source id='mp4'
+                      src="https://fyc.uteq.edu.ec/pocketbase/api/files/R0BDS4ixyAqvSUv/euux7oHUAYsfsmN/PzSzMmyw9VkaECGj8QCNZenAN0TEgtbp.mp4"
+                      type='video/mp4'/>
+            </video>
+          </div>
+        </div>
+      </div>
+      <hr/>
+      <div id="multimedia4">
+        <div>
+          <h4>Manejo Usuario</h4>
+          <div class="video-container">
+            <video class='video-tuto' width="600" controls preload='none' draggable="true" style="width: auto; max-width: 600px"
+                   poster="../../assets/layout/images/imagesVirtus/logoVirtus.svg">
+              <source id='mp4'
+                      src="https://fyc.uteq.edu.ec/pocketbase/api/files/archivos/8nkMAH62Id77Ulx/GbIVundG28hRqyBEuvwXEfu1gInHDVDT.mp4"
+                      type='video/mp4'/>
+            </video>
+          </div>
+        </div>
+      </div>
+      <hr/>
+
+    </p-tabPanel>
+
+    <p-tabPanel header="Comandos" class="line-height-3 m-0">
+
+      <p-table #dt1 [value]="comandosTeclado" dataKey="id" [rows]="10" [rowHover]="true"
+               styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>
+              <div class="flex justify-content-between align-items-center">
+                Comando
+              </div>
+            </th>
+            <th>
+              <div class="flex justify-content-between align-items-center">
+                Descripción
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-comando_teclado>
+          <tr>
+            <td style="min-width: 12rem;">
+              <img [src]="'assets/layout/images/teclas/' + comando_teclado.comando_base" alt="" width="70">
+              <span style="margin: 10px;position: relative;top: -10px;font-size: 30px;font-weight: bold;">+</span>
+              <img *ngIf="comando_teclado.comando_sec !== 'tab.png' && comando_teclado.comando_sec !== 'backspace.png'"
+                   [src]="'assets/layout/images/teclas/' + comando_teclado.comando_sec" alt="" width="39">
+              <img *ngIf="comando_teclado.comando_sec === 'tab.png'"
+                   [src]="'assets/layout/images/teclas/' + comando_teclado.comando_sec" alt="" width="60">
+              <img *ngIf="comando_teclado.comando_sec === 'backspace.png'"
+                   [src]="'assets/layout/images/teclas/' + comando_teclado.comando_sec" alt="" width="100">
+            </td>
+            <td style="min-width: 12rem;">
+              {{comando_teclado.descripcion}}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <p-table #dt1 [value]="comandosVoz" dataKey="id" [rows]="10" [rowHover]="true"
+               styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>
+              <div class="flex justify-content-between align-items-center">
+                Comando
+              </div>
+            </th>
+            <th>
+              <div class="flex justify-content-between align-items-center">
+                Descripción
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-comando_voz>
+          <tr>
+            <td style="min-width: 12rem;">
+              {{comando_voz.comando}}
+            </td>
+            <td style="min-width: 12rem;">
+              {{comando_voz.descripcion}}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+    </p-tabPanel>
+
+    <p-tabPanel header="Agradecimientos" class="line-height-3 m-0">
+      <p style="text-align: justify">
+        Para el proyecto de VIRTUS de la <b> Universidad Técnica Estatal de Quevedo </b>, primero agradecemos a
+        <b>Dios</b> por guiarnos a lo
+        largo de ésta experiencia, ser el apoyo y fortaleza en los momentos de dificultad. Gracias a nuestros padres,
+        por ser los pilares
+        fundamentales para cumplir nuestros sueños, por confiar y creer en nuestras expectativas al iniciar con este
+        gran proyecto.
+        También agradecermos a la UTEQ, que nos brindó el espacio y el apoyo para poder iniciar y culminar con este
+        proyecto.
+      </p>
+      <p style="text-align: justify">
+        Agradecemos a cada uno de los docentes que formaron parte de este proyecto compartiendo sus conocimientos y
+        apoyándonos en
+        cada situación que se presentaba, entre ellos mencionar al <b>Ing. Orlando Erazo </b> que nos incentivó con la
+        idea del proyecto.
+        Además, agradecemos también a nuestros compañeros de curso de la carrera<b> Ingeniería en Sistemas </b> por
+        apoyarnos con ideas
+        que sin duda beneficiaron para culminar con éxito todos los objetivos planteados.
+      </p>
+    </p-tabPanel>
+  </p-tabView>
+</div>

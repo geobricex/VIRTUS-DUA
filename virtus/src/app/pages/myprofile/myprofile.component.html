@@ -1,0 +1,226 @@
+<p-toast key="tst" [baseZIndex]="99999"></p-toast>
+<p-messages [value]="msgs"></p-messages>
+
+<p-dialog [(visible)]="formUpdatePhto" [style]="{width: '480px'}" header="Editar foto de perfil" [modal]="true"
+          class="p-fluid" [style.z-index]="1000" [style.position]="'absolute'">
+
+  <ng-template pTemplate="content">
+    <div [formGroup]="frmPhoto" class="text-center">
+      <img [src]="urlimageupload" alt="" width="100" height="100"
+           style="border-radius: 50%; border: 5px solid #2D3F47"> <br>
+      <label for="uploadPhotoNew" class="p-button p-button-success w-4"> Seleccionar imagen propia</label>
+      <input style="display: none" id="uploadPhotoNew" formControlName="firstName" type="file"
+             (change)="onFileChange($event)">
+      <div>
+        <h4 style="margin-top: 2rem">Seleccionar avatar</h4>
+        <p-dataView #dv [value]="avatar" [rows]="9" filterBy="nameCourse,keywordsCourse,descriptionCourse"
+                    layout="grid">
+          <ng-template let-avatar_front pTemplate="gridItem">
+            <div class="col-12 md:col-2 cursor-pointer">
+              <div class="col-12  cursor-pointer">
+                <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
+                  <div class="my-4 md:my-0 w-9 md:w-10rem hover:bg-black-alpha-10 "
+                       (click)="seleccionarAvatar(avatar_front)">
+                    <img [src]="avatar_front.image" [alt]="avatar_front.image" width="40" height="40"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </p-dataView>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-warning"></button>
+    <button pButton pRipple label="Guardar cambios" icon="pi pi-check" class="p-button-success"
+            (click)="updatePhtoProfile()"></button>
+  </ng-template>
+
+</p-dialog>
+
+<p-dialog [(visible)]="formUpdatePass" [style]="{ width: '480px' }" header="Cambiar contraseña"
+          [modal]="true"
+          class="p-fluid" [style.z-index]="1000" [style.position]="'absolute'">
+  <ng-template pTemplate="content">
+    <div [formGroup]="frmCambioContrasena" class="text-center">
+      <div class="field">
+        <label for="contrasenaAnterior">Contraseña anterior</label>
+        <input
+          type="password"
+          id="contrasenaAnterior"
+          formControlName="contrasenaAnterior"
+          pInputText
+          required
+          pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w\W]{6,16}$"
+          pTooltip="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una
+                   minúscula, al menos una mayúscula y al menos un caracter no alfanumérico." tooltipPosition="right"
+        />
+      </div>
+
+      <div class="field">
+        <label for="nuevaContrasena">Nueva Contraseña</label>
+        <input
+          type="password"
+          id="nuevaContrasena"
+          formControlName="nuevaContrasena"
+          pInputText
+          required
+          pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w\W]{6,16}$"
+          pTooltip="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una
+                   minúscula, al menos una mayúscula y al menos un caracter no alfanumérico." tooltipPosition="right"
+        />
+      </div>
+
+      <div class="field">
+        <label for="confirmarNuevaContrasena">Confirmar Nueva Contraseña</label>
+        <input
+          type="password"
+          id="confirmarNuevaContrasena"
+          formControlName="confirmarNuevaContrasena"
+          pInputText
+          required
+          pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w\W]{6,16}$"
+          pTooltip="La contraseña debe tener entre 6 y 16 caracteres, al menos un dígito, al menos una
+                   minúscula, al menos una mayúscula y al menos un caracter no alfanumérico." tooltipPosition="right"
+        />
+      </div>
+
+      <button
+        pButton
+        label="Guardar cambios"
+        class="p-button-success"
+        [disabled]="!frmCambioContrasena.valid"
+        (click)="cambiarContrasena()"
+      ></button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<div style="width: 50%; margin: auto;">
+  <p-panel header="Datos personales" [toggleable]="true" [collapsed]="false" class="line-height-3 m-0">
+    <div class="p-3 text-center">
+      <img [src]="person._pathimgPerson" alt="profile photo" class="topbar-profile"
+           style="border-radius: 50%; border: 5px solid #2D3F47" width="150" height="150"/>
+      <button pButton icon="pi pi-pencil" class="p-button-outlined bg-white" *ngIf="editar_datos"
+              style="position: absolute;margin-top: 110px;margin-left: -36px;background: white; border-radius: 50%"
+              (click)="showUpdatePhoto()">
+      </button>
+      <br>
+      <button pButton label="Editar datos" class="p-button-warning mt-2" (click)="editar_datos = true"
+              *ngIf="!editar_datos"></button>
+    </div>
+    <div class="field">
+      <label for="apellidos">Apellidos</label>
+      <input id="apellidos" type="email" autocomplete="off" pInputText [(ngModel)]="person._lastnamePerson"
+             class="w-full" [readOnly]="!editar_datos"/>
+    </div>
+    <div class="field">
+      <label for="nombres">Nombres</label>
+      <input id="nombres" type="email" autocomplete="off" pInputText [(ngModel)]="person._namePerson"
+             class="w-full" [readOnly]="!editar_datos"/>
+    </div>
+    <div class="field">
+      <label for="email">Correo electrónico</label>
+      <input id="email" type="email" autocomplete="off" pInputText [(ngModel)]="person._emailPerson"
+             class="w-full" readonly="readonly" disabled="true"/>
+    </div>
+    <div class="text-right" *ngIf="editar_datos">
+      <button pButton label="Cancelar" class="p-button-warning mt-2" (click)="editar_datos = false"></button>
+      <button pButton label="Guardar cambios" class="p-button-success mt-2 ml-2" (click)="updateDataPerson()"></button>
+    </div>
+
+    <hr>
+    <h5>Contraseña</h5>
+    <button pButton label="Cambiar contraseña" class="p-button-warning mt-2"
+            (click)="modalformUpdatePass()"></button>
+    <hr>
+<!--    <h6>Suspensión de cuenta</h6>-->
+<!--    <button pButton label="Deshabilitar cuenta" class="p-button-danger mt-2"></button>-->
+    <!--    <button pButton label="Eliminar cuenta" class="p-button-danger p-button-outlined mt-2 ml-2"></button>-->
+  </p-panel>
+
+</div>
+
+<!--<div style="width: 50%; margin: auto;" *ngIf="person._typePerson != 'A' && person._typePerson != 'R'">-->
+<!--  <p-panel header="Solicitud" [toggleable]="true" [collapsed]="true" class="line-height-3 m-0">-->
+<!--    <p-panel *ngIf="person._typePerson != 'I'" header="¡Quiero ser instructor!" [toggleable]="true" [collapsed]="true"-->
+<!--             class="line-height-3 m-0">-->
+<!--      <p-scrollPanel [style]="{height: '150px'}">-->
+<!--        <strong>¿QUIERES SER UN INSTRUCTOR EN LA APLICACIÓN?</strong>-->
+<!--        <p style="text-align: justify">-->
+<!--          Solicita ser un instructor, y envíe un mensaje con las razones por la cual le gustaría-->
+<!--          tener este rol, revisaremos su solicitud para evaluar la actualización de su rol. En caso-->
+<!--          de cualquier novedad, nos estaremos contactando con usted por medio de la información que nos ha-->
+<!--          proporcionado.-->
+<!--        </p>-->
+<!--        <strong>BENEFICIOS</strong>-->
+<!--        <p style="text-align: justify">-->
+<!--          Las opciones que usted tendría siendo un INSTRUCTOR, es poder crear desde su cuenta a sus cursos con sus-->
+<!--          respectivos módulos y temas, generando un código de invitación el cual podrá proporcionar a sus estudiantes,-->
+<!--          y así poder llevar un control de ellos desde su perfil, y ellos puedan interactuar a la información que usted-->
+<!--          registró,-->
+<!--          además usted podrá acceder a los registros para realizar un seguimiento-->
+<!--          y obtener reportes de sus estudiantes.-->
+<!--        </p>-->
+<!--        <strong>RECUERDA</strong>-->
+<!--        <p style="text-align: justify">-->
+<!--          Para poder realizar esta solicitud usted necesita tener toda su información completa.-->
+<!--        </p>-->
+<!--        <p-scrollTop target="parent" styleClass="custom-scrolltop" [threshold]="50"-->
+<!--                     icon="pi pi-arrow-up"></p-scrollTop>-->
+<!--      </p-scrollPanel>-->
+<!--      <br>-->
+<!--      <button pButton label="Quiero ser instructor" class="p-button-info mt-2"></button>-->
+<!--    </p-panel>-->
+<!--    <p-panel *ngIf="person._typePerson != 'E'" header="¡Quiero ser educador!" [toggleable]="true" [collapsed]="true"-->
+<!--             class="line-height-3 m-0">-->
+<!--      <p-scrollPanel [style]="{height: '100px'}">-->
+<!--        <strong>¿QUIERES SER UN EDUCADOR EN LA APLICACIÓN?</strong>-->
+<!--        <p style="text-align: justify">-->
+<!--          Solicita ser un educador, y envíe un mensaje con las razones por la cual le gustaría-->
+<!--          tener este rol, revisaremos su solicitud para evaluar la actualización de su rol. En caso-->
+<!--          de cualquier novedad, nos estaremos contactando con usted por medio de la información que nos ha-->
+<!--          proporcionado.-->
+<!--        </p>-->
+<!--        <strong>BENEFICIOS</strong>-->
+<!--        <p style="text-align: justify">-->
+<!--          Las opciones que usted tendría siendo un EDUCADOR, es poder registrar desde su cuenta a sus propios-->
+<!--          estudiantes, y así poder llevar un control de ellos desde su perfil, y poder evaluarlos en los diferentes-->
+<!--          cursos que poseemos, además usted podrá acceder a los registros para realizar un seguimiento-->
+<!--          y obtener reportes de sus estudiantes.-->
+<!--        </p>-->
+<!--        <strong>RECUERDA</strong>-->
+<!--        <p style="text-align: justify">-->
+<!--          Para poder realizar esta solicitud usted necesita tener toda su información completa.-->
+<!--        </p>-->
+<!--        <p-scrollTop target="parent" styleClass="custom-scrolltop" [threshold]="50"-->
+<!--                     icon="pi pi-arrow-up"></p-scrollTop>-->
+<!--      </p-scrollPanel>-->
+<!--      <br>-->
+<!--      <button pButton label="Quiero ser educador" class="p-button-info mt-2 ml-2"></button>-->
+<!--    </p-panel>-->
+<!--    <p-panel *ngIf="person._typePerson != 'U'" header="Regresar rol a usuario"-->
+<!--             [toggleable]="true" [collapsed]="true" class="line-height-3 m-0">-->
+<!--      <p-scrollPanel [style]="{height: '100px'}">-->
+<!--        <strong>¿QUIERES REGRESAR A SER UN USUARIO GENERAL EN LA APLICACIÓN?</strong>-->
+<!--        <p style="text-align: justify">-->
+<!--          Solicita regresar a ser un usuario general, y envíe un mensaje con las razones por la cual le gustaría-->
+<!--          volver a tener este rol, revisaremos su solicitud para evaluar la actualización de su rol. En caso-->
+<!--          de cualquier novedad, nos estaremos contactando con usted por medio de la información que nos ha-->
+<!--          proporcionado.-->
+<!--        </p>-->
+<!--        <strong>RECUERDA</strong>-->
+<!--        <p style="text-align: justify">-->
+<!--          Se deshabilitará todo tus avances.-->
+<!--        </p>-->
+<!--        <p-scrollTop target="parent" styleClass="custom-scrolltop" [threshold]="50"-->
+<!--                     icon="pi pi-arrow-up"></p-scrollTop>-->
+<!--      </p-scrollPanel>-->
+<!--      <br>-->
+<!--      <button pButton label="Quiero ser usuario general" class="p-button-info mt-2 ml-2"></button>-->
+<!--    </p-panel>-->
+<!--  </p-panel>-->
+<!--  <p-scrollTop target="window" styleClass="custom-scrolltop" [threshold]="100" icon="pi pi-arrow-up"></p-scrollTop>-->
+
+<!--</div>-->

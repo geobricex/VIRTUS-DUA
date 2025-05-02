@@ -1,0 +1,153 @@
+<p-toast key="tst" [baseZIndex]="99999"></p-toast>
+<p-messages [value]="msgs"></p-messages>
+<div class="grid">
+  <div class="col-12">
+    <p-toast></p-toast>
+
+    <!--    <p-toolbar styleClass="mb-4">-->
+    <!--      <ng-template pTemplate="left">-->
+    <!--        <div class="my-2">-->
+
+    <!--        </div>-->
+    <!--      </ng-template>-->
+
+    <!--      <ng-template pTemplate="right">-->
+    <!--        <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"-->
+    <!--                (click)="dt.exportCSV()"></button>-->
+    <!--      </ng-template>-->
+    <!--    </p-toolbar>-->
+    <p-table #dta [value]="persons" responsiveLayout="scroll" [rows]="5" [columns]="cols"
+             [paginator]="true" [rowsPerPageOptions]="[5,10,20,30]" [showCurrentPageReport]="true"
+             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+             selectionMode="multiple" [rowHover]="true" dataKey="id"
+             [globalFilterFields]="['namePerson','lastnamePerson','emailPerson','providerPerson','dateregPerson','dateupdatePerson']">
+      <ng-template pTemplate="caption">
+        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+          <h5 class="m-0">Usuarios de la aplicación</h5>
+          <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" placeholder="Buscar..."
+                                   (input)="dta.filterGlobal($any($event.target).value, 'contains')"/>
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Imagen</th>
+
+          <th pSortableColumn="namePerson">Nombre
+            <p-sortIcon field="Nombre"></p-sortIcon>
+          </th>
+          <th pSortableColumn="lastnamePerson">Apellido
+            <p-sortIcon field="Apellido"></p-sortIcon>
+          </th>
+          <th pSortableColumn="emailPerson">Email
+            <p-sortIcon field="Email"></p-sortIcon>
+          </th>
+          <th pSortableColumn="providerPerson">Registro
+            <p-sortIcon field="Tipoderegistro"></p-sortIcon>
+          </th>
+          <th pSortableColumn="dateregPerson">Fechas
+            <p-sortIcon field="Fecharegistro"></p-sortIcon>
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-person>
+        <tr>
+          <td class="col-1"><span class="p-column-title">Imagen</span>
+            <img [src]="person.pathimgPerson" [alt]="person.namePerson" width="70"
+                 class="border-circle border-2 border-black-alpha-40"/>
+          </td>
+          <td class="col-1"><span class="p-column-title">Nombre</span>
+            {{person.namePerson}}
+          </td>
+          <td class="col-1">
+            <span class="p-column-title">Apellido</span>
+            {{person.lastnamePerson}}
+          </td>
+
+          <td class="col-2">
+            <span class="p-column-title">Email</span>
+            {{person.emailPerson}} <br>
+            <span class="p-column-title">Tipo de usuario</span>
+            <span *ngIf="person.typePerson=='A'"
+                  class="p-badge p-badge-primary mt-3"> Administrador </span>
+            <span *ngIf="person.typePerson=='U'"
+                  class="p-badge p-badge-success mt-3"> Usuario </span>
+            <span *ngIf="person.typePerson=='I'"
+                  class="p-badge p-badge-secondary mt-3"> Instructor </span>
+            <span *ngIf="person.typePerson=='E'"
+                  class="p-badge p-badge-info mt-3"> Educador </span>
+            <span *ngIf="person.typePerson=='S'"
+                  class="p-badge p-badge-warning mt-3"> No activa </span>
+            <span *ngIf="person.typePerson=='D'"
+                  class="p-badge p-badge-danger mt-3"> Deshabilitada </span>
+          </td>
+          <td class="col-1">
+            <span class="p-column-title">Registro</span>
+            {{person.providerPerson}}
+          </td>
+          <td class="col-3">
+            <span class="p-column-title">Fechas</span>
+            <span class="text-blue-500" >Registro:</span> {{person.dateregPerson}} <br>
+            <span class="text-blue-500"> Actualización: </span> {{person.dateupdatePerson}}
+          </td>
+          <td class="col-1">
+            <div class="flex" *ngIf="personUser.typePerson == 'R'">
+              <button *ngIf="person.typePerson == 'U'" pButton pRipple icon="pi pi-angle-double-up"
+                      class="p-button-rounded p-button-success mr-2" pTooltip="Promover a administrador"
+                      tooltipPosition="left"
+                      (click)="changeRolPersons(person,'UtoA')"></button>
+
+              <button *ngIf="person.typePerson == 'A'" pButton pRipple icon="pi pi-angle-double-down"
+                      class="p-button-rounded p-button-warning mr-2" pTooltip="Degradar a usuario"
+                      tooltipPosition="left"
+                      (click)="changeRolPersons(person,'AtoU')"></button>
+
+              <button *ngIf="person.typePerson == 'U'" pButton pRipple icon="pi pi-exclamation-triangle"
+                      class="p-button-rounded p-button-danger mr-2" pTooltip="Desactivar cuenta"
+                      tooltipPosition="left"
+                      (click)="changeRolPersons(person,'UtoD')"></button>
+
+              <button *ngIf="person.typePerson == 'S'" pButton pRipple icon="pi pi-user-plus"
+                      class="p-button-rounded p-button-help mr-2" pTooltip="Habilitar cuenta"
+                      tooltipPosition="left"
+                      (click)="changeRolPersons(person,'StoU')"></button>
+
+              <!--              <button *ngIf="person.typePerson == 'U'" pButton pRipple class="p-button-rounded p-button-info mr-2">-->
+              <!--                <fa-icon [icon]="['fas', 'hands']"></fa-icon>-->
+              <!--              </button>-->
+
+              <!--              <button *ngIf="person.typePerson == 'U'" pButton pRipple class="p-button-rounded p-button-info mr-2">-->
+              <!--                <fa-icon [icon]="['fas', 'hands']"></fa-icon>-->
+              <!--              </button>-->
+            </div>
+            <div class="flex"
+                 *ngIf="personUser.typePerson == 'A'">
+              <button *ngIf="person.typePerson == 'U'" pButton pRipple icon="pi pi-exclamation-triangle"
+                      class="p-button-rounded p-button-danger mr-2" pTooltip="Desactivar cuenta"
+                      tooltipPosition="left"
+                      (click)="changeRolPersons(person, 'UtoD')"></button>
+
+              <button *ngIf="person.typePerson == 'S'" pButton pRipple icon="pi pi-user-plus"
+                      class="p-button-rounded p-button-help mr-2" pTooltip="Activar cuenta"
+                      tooltipPosition="left"
+                      (click)="changeRolPersons(person, 'StoU')"></button>
+
+              <!--              <button *ngIf="person.typePerson == 'U'" pButton pRipple class="p-button-rounded p-button-info mr-2">-->
+              <!--                <fa-icon [icon]="['fas', 'hands']"></fa-icon>-->
+              <!--              </button>-->
+
+              <!--              <button *ngIf="person.typePerson == 'U'" pButton pRipple class="p-button-rounded p-button-info mr-2">-->
+              <!--                <fa-icon [icon]="['fas', 'hands']"></fa-icon>-->
+              <!--              </button>-->
+
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+

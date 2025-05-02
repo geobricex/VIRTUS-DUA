@@ -1,0 +1,65 @@
+<p>testvoice works!</p>
+<div class="card">
+  <div class="grid">
+    <div class="col-8 flex align-items-center justify-content-center">
+      <p-panel header="Header" [toggleable]="true">
+        <button pButton pRipple type="button" icon="pi pi-play" class="p-button-rounded p-button-info p-button-outlined"
+                id="btnStart" (click)="probarcomando()"></button>
+        <h5>{{element.request}}</h5>
+        <p-divider></p-divider>
+        <div *ngFor="let option of element.options; let i = index" [attr.data-index]="i" class="field-checkbox">
+          <p-radioButton [inputId]="'option' + i" name="category" (onClick)="changeRadio()"
+                         [value]="option" [(ngModel)]="literalSeleccionado"></p-radioButton>
+          <label [for]="'option' + i">{{option.content}}</label>
+        </div>
+        <p-fieldset legend="Pista" [toggleable]="true">
+          ¿Pista para encontrar la respuesta?
+        </p-fieldset>
+      </p-panel>
+    </div>
+    <div class="col-4 flex align-items-center justify-content-center">
+      <p-panel header="Navegación">
+        <div class="grid">
+          <div class="col flex align-items-center justify-content-center">
+            <p-timeline [value]="events1" layout="vertical" align="right" styleClass="customized-timeline">
+              <ng-template pTemplate="marker" let-event>
+            <span class="custom-marker shadow-2" [style.backgroundColor]="event.color">
+                <i [ngClass]="event.icon"></i>
+            </span>
+              </ng-template>
+              <ng-template pTemplate="opposite" let-event>
+                {{event.status}}
+              </ng-template>
+            </p-timeline>
+          </div>
+          <div class="col-5 flex align-items-center justify-content-center">
+            <p-timeline [value]="events1" layout="vertical" align="right" styleClass="customized-timeline">
+              <ng-template pTemplate="marker" let-event>
+            <span class="custom-marker shadow-2" [style.backgroundColor]="event.color">
+                <i [ngClass]="event.icon"></i>
+            </span>
+              </ng-template>
+              <ng-template pTemplate="opposite" let-event>
+                {{event.status}}
+              </ng-template>
+            </p-timeline>
+          </div>
+          <div class="col flex align-items-center justify-content-center">
+            <p-timeline [value]="events1" layout="vertical" align="right" styleClass="customized-timeline">
+              <ng-template pTemplate="marker" let-event>
+            <span class="custom-marker shadow-2" [style.backgroundColor]="event.color">
+                <i [ngClass]="event.icon"></i>
+            </span>
+              </ng-template>
+              <ng-template pTemplate="opposite" let-event>
+                {{event.status}}
+              </ng-template>
+            </p-timeline>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  </div>
+</div>
+
+<!-- (B) DEMO BUTTON -->

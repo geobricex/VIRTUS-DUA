@@ -1,0 +1,221 @@
+<p-toast key="tst" [baseZIndex]="99999"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" position="bottom" [baseZIndex]="10000"
+                 rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
+
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+
+      <div class="" *ngIf="loadingDataCourse">
+        <div class="grid mb-2">
+          <div class="col-6">
+            <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+          </div>
+          <div class="col-6">
+            <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+          </div>
+        </div>
+        <div class="grid mb-2">
+          <div class="col-1 ">
+            <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+          </div>
+          <div class="col-5 ">
+            <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+          </div>
+          <div class="col-1 ">
+            <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+          </div>
+          <div class="col-5 ">
+            <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="col-1 ">
+            <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+          </div>
+          <div class="col-5">
+            <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+          </div>
+          <div class="col-1 ">
+            <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+          </div>
+          <div class="col-5">
+            <p-skeleton height="1rem" styleClass="mb-2"></p-skeleton>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!loadingDataCourse">
+        <div class="grid">
+          <div class="col-6">
+            <strong> Datos del curso seleccionado </strong>
+            <hr>
+          </div>
+          <div class="col-6">
+            <strong> Datos del módulo seleccionado </strong>
+            <hr>
+          </div>
+        </div>
+        <div class="grid mb-2">
+          <div class="col-1">
+            <strong> Título: </strong>
+          </div>
+          <div class="col-5">
+            {{dataCourse.nameCourse}}
+          </div>
+          <div class="col-1">
+            <strong> Título: </strong>
+          </div>
+          <div class="col-5">
+            {{dataModule.name_syllabu}}
+          </div>
+        </div>
+        <div class="grid">
+          <div class="col-1 ">
+            <strong> Descripción: </strong>
+          </div>
+          <div class="col-5 ">
+            {{dataCourse.descriptionCourse}}
+          </div>
+          <div class="col-1 ">
+            <strong> Descripción: </strong>
+          </div>
+          <div class="col-5 ">
+            {{dataModule.description_syllabu}}
+          </div>
+        </div>
+      </div>
+
+      <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+          <div class="my-2">
+            <button pButton pRipple label="Nuevo tema" icon="pi pi-plus" class="p-button-success mr-2"
+                    (click)="openNew()"></button>
+          </div>
+        </ng-template>
+      </p-toolbar>
+      <p-dataView #dv [value]="topics" [paginator]="true" [rows]="9" filterBy="name_topic,description_topic,keywords_topic"
+                  layout="grid" [sortField]="sortField" [sortOrder]="sortOrder">
+        <ng-template pTemplate="header">
+          <div class="grid grid-nogutter flex-column md:flex-row justify-content-between">
+            <p-dropdown [options]="sortOptions" placeholder="Ordenar por" (onChange)="onSortChange($event)"
+                        styleClass="mb-2 md:mb-0"></p-dropdown>
+            <span class="p-input-icon-left mb-2 md:mb-0">
+                    <i class="pi pi-search"></i>
+                    <input type="search" pInputText placeholder="Buscador..."
+                           (input)="dv.filter($any($event.target).value, 'contains')">
+                </span>
+            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+          </div>
+        </ng-template>
+
+        <ng-template let-topic pTemplate="listItem">
+          <div class="col-12 hover:bg-black-alpha-10 cursor-pointer">
+            <div class="flex flex-column md:flex-row align-items-center p-3 w-full">
+              <img [src]="topic.pathimg_topic" [alt]="topic.name_topic" width="100"
+                   class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5"/>
+              <div class="flex-1 text-center md:text-left">
+                <div class="font-bold text-2xl">{{topic.name_topic}}</div>
+                <div class="mb-3">{{topic.description_topic}}</div>
+                <span class="customer-badge status-renewal">Cantidad de evaluaciones: {{topic.cantevaluation}}  </span>
+              </div>
+              <div
+                class="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0">
+                <button pButton icon="pi pi-folder-open" label="Subir recursos y evaluaciones"
+                        class="mb-2 p-button p-button-info" routerLink="resourcesar/{{topic.id_topic}}"></button>
+                <!-- <span class="product-price">${{product.price}}</span>
+                <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>-->
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template let-topic pTemplate="gridItem">
+          <div class="col-12 md:col-4 hover:bg-black-alpha-10 cursor-pointer">
+            <div class="card m-3 border-1 surface-border">
+              <div class="flex align-items-center justify-content-between">
+                <div class="flex align-items-center">
+                  <span
+                    class="customer-badge status-renewal">Cantidad de evaluaciones: {{topic.cantevaluation}}  </span>
+                </div>
+              </div>
+              <div class="text-center">
+                <div class="w-full  my-3 mx-0 imgcard-virtus">
+                  <img [src]="topic.pathimg_topic" [alt]="topic.name_topic" width="200"
+                       pTooltip="Click para subir recursos y evaluaciones" tooltipPosition="right"
+                       routerLink="resourcesar/{{topic.id_topic}}"/>
+
+                  <button pButton icon="pi pi-pencil"
+                          class="mb-2 p-button p-button-success p-button-rounded cursor-pointer masinfo"
+                          pTooltip="Editar" tooltipPosition="bottom" (click)="selectedTopic(topic)"></button>
+                  <button pButton icon="pi pi-trash"
+                          class="mb-2 p-button p-button-danger p-button-rounded cursor-pointer editar"
+                          pTooltip="Eliminar" tooltipPosition="bottom" (click)="deleteTopic(topic)"></button>
+                </div>
+                <div class="text-2xl font-bold">{{topic.name_topic}}</div>
+                <div class="mb-3">{{topic.description_topic}}</div>
+              </div>
+              <div class="flex align-items-center justify-content-between">
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-dataView>
+    </div>
+  </div>
+  <p-scrollTop target="window" styleClass="custom-scrolltop" [threshold]="100" icon="pi pi-arrow-up"></p-scrollTop>
+
+</div>
+
+<p-dialog [(visible)]="newTopicDialog" [style]="{width: '450px'}" [header]="updateTopic ? 'Editar tema' : 'Editar tema'"
+          [modal]="true"
+          class="p-fluid">
+  <ng-template pTemplate="content">
+    <form [formGroup]="registerFormTopic">
+
+      <div [formGroup]="frmPhoto" class="text-center">
+        <img [src]="urlimageupload" alt="" width="200" height="200"
+             style="border: 5px solid #2D3F47" class="border-round"> <br>
+        <label for="uploadPhotoNew" class="p-button p-button-info w-4"> Seleccionar foto </label>
+        <input style="display: none" id="uploadPhotoNew" formControlName="firstName" type="file"
+               (change)="onFileChange($event)">
+      </div>
+
+      <div class="field">
+        <label for="nombrem">Nombre:</label>
+        <input id="nombrem" type="text" autocomplete="off" pInputText class="w-full" formControlName="name"
+               [ngClass]="
+                 (form['name'].invalid && (form['name'].dirty && form['name'].touched)) ?
+                 'ng-dirty ng-invalid' : ''"/>
+        <small *ngIf="form['name'].invalid && (form['name'].dirty && form['name'].touched)"
+               class="p-error">Este campo es requerido.</small>
+      </div>
+      <div class="field">
+        <label for="descm">Descripción:</label>
+        <textarea pInputTextarea name="" id="descm" cols="30" rows="5" formControlName="description" [ngClass]="
+                 (form['description'].invalid && (form['description'].dirty && form['description'].touched)) ?
+                 'ng-dirty ng-invalid' : ''"></textarea>
+        <small
+          *ngIf="form['description'].invalid && (form['description'].dirty && form['description'].touched)"
+          class="p-error">Este campo es requerido.</small>
+      </div>
+
+      <div class="field">
+        <label for="pclavem">Palabras clave (separadas por coma):</label>
+        <input id="pclavem" type="email" autocomplete="off" pInputText class="w-full"
+               formControlName="keywords" [ngClass]="
+                 (form['keywords'].invalid && (form['keywords'].dirty && form['keywords'].touched)) ?
+                 'ng-dirty ng-invalid' : ''"/>
+        <small
+          *ngIf="form['keywords'].invalid && (form['keywords'].dirty && form['keywords'].touched)"
+          class="p-error">Este campo es requerido.</small>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-warning"
+            (click)="resetTopic()"></button>
+    <button pButton pRipple [disabled]="registerFormTopic.invalid" label="Guardar cambios" icon="pi pi-check"
+            class="p-button-success" (click)="saveTopic()"></button>
+  </ng-template>
+</p-dialog>

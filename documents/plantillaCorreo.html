@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="border-radius: 5px; width: 500px; height: 500px; border: 1px solid white; 
+    background-image: url('https://res.cloudinary.com/bricex/image/upload/v1659652005/plantillas/virtusEmail.jpg')">
+        <div style="padding: 25px;font-size:13px;width:450px;margin-top:190px;">
+            <p style="font-family: 'consolas';">
+                Saludos ${paramnames}.
+                ${paramintro} en la aplicación <a href="${hosturl}" target="_blank">${hostname}</a>
+            </p>
+    
+            <div style="margin-top: 45px;text-align: center; ">
+                <span style="text-align: center;background: #5E8F32;height: 20px; border-radius: 30px;padding: 10px 30px 10px 30px;font-size: 20px;
+                font-family: 'consolas';color:white; text-decoration: none;">
+                     <a href="${hosthackurl}" style="color:white; text-decoration: none;" target="_blank">Verificar cuenta</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

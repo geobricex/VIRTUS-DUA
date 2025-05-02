@@ -1,0 +1,107 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+@import "../node_modules/prismjs/themes/prism-coy.css";
+@import "../node_modules/@fullcalendar/daygrid/main.min.css";
+@import "../node_modules/@fullcalendar/timegrid/main.min.css";
+@import "assets/demo/flags/flags.css";
+@import "assets/demo/documentation.scss";
+
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 26/02/2021, 12:49:07
+    Author     : geova
+*/
+
+
+span, strong, td, h1, h2, h3, h4, h5, h6 {
+  cursor: default;
+}
+
+span, strong, td, h1, h2, h3, h4, h5, h6, a, img, label, div {
+  -webkit-touch-callout: none !important; /* iOS Safari */
+  -webkit-user-select: none !important; /* Safari */
+  -khtml-user-select: none !important; /* ; Konqueror HTML */
+  -moz-user-select: none !important; /* Old versions of Firefox */
+  -ms-user-select: none !important; /* Internet Explorer/Edge */
+  user-select: none !important; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+a {
+  cursor: pointer;
+}
+
+a span {
+  cursor: pointer;
+}
+
+.titleMenu span {
+  cursor: pointer;
+}
+
+
+:root {
+  --image-video-style: sepia(100%);
+  --text-color-style:  none;
+  --text-font-family: 'Exo 2', sans-serif;
+  --document-zoom-style:  100%;
+}
+
+img, video {
+  filter: var(--image-video-style, none);
+}
+
+span, strong, td, h1, h2, h3, h4, h5, h6, a, img, label, div, p, pre {
+  color: var(--text-color-style);
+  font-family: var(--text-font-family);
+}
+
+*{
+  zoom:  var(--document-zoom-style, 100%);
+}
+
+:host ::ng-deep .p-dropdown {
+  max-width: 100%;
+  width: 100%;
+}
+
+.video_sign_float {
+  display: block;
+  position: fixed;
+  min-width: 3rem;
+  min-height: 3rem;
+  line-height: 0rem;
+  text-align: center;
+  top: 20%;
+  right: 0;
+  margin-top: -1.5rem;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  transition: background-color 0.3s;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: -0.25rem 0 1rem rgba(0, 0, 0, 0.0);
+}
+
+.justificar_contenido{
+  justify-content: center;
+  //justify-content: space-between;
+  align-items: center; //center
+  flex-direction: column;
+}
+.centar-botones {
+  float:none;
+  text-align:center;
+}
+.p-chip.custom-chip {
+  background: #a12929;
+  color: var(--primary-color-text);
+}

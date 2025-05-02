@@ -1,0 +1,399 @@
+.landing-wrapper #header {
+  background: url("src/assets/layout/images/imagesVirtus/fondoVirtus.jpg");
+  height: 630px;
+  padding: 21px 145px;
+  background-size: cover;
+}
+.landing-wrapper #header .header-top .logo {
+  height: 64px;
+  padding-top: 12px;
+  padding-left: 12px;
+  width: 225px;
+  float: left;
+}
+.landing-wrapper #header .header-top .logo img {
+  height: 40px;
+  width: auto;
+  vertical-align: middle;
+}
+.landing-wrapper #header .header-top .logo .app-name {
+  font-weight: bold;
+  font-size: 24px;
+  vertical-align: middle;
+  margin-left: 12px;
+}
+.landing-wrapper #header .header-top .menu-button-mobile {
+  display: none;
+}
+.landing-wrapper #header .header-top #landing-menu {
+  padding: 0;
+  list-style-type: none;
+  float: right;
+}
+.landing-wrapper #header .header-top #landing-menu li {
+  display: inline-block;
+}
+.landing-wrapper #header .header-top #landing-menu li a {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-right: 42px;
+}
+.landing-wrapper #header .header-top #landing-menu li a:hover {
+  color: #ffb900;
+}
+.landing-wrapper #header .header-top #landing-menu li i {
+  display: none;
+}
+.landing-wrapper #header .header-content {
+  padding: 115px 0;
+  width: 50%;
+}
+.landing-wrapper #header .header-content h1 {
+  font-size: 28px;
+  font-weight: 600;
+  text-align: left;
+  color: #ffffff;
+}
+.landing-wrapper #header .header-content h2 {
+  font-size: 17px;
+  text-align: left;
+  font-weight: 400;
+  color: #ffffff;
+}
+.landing-wrapper #header .header-content button {
+  margin-top: 36px;
+  color: #333333;
+  background-color: #ffb900;
+  border-color: #ffb900;
+}
+.landing-wrapper #features {
+  padding: 72px 140px;
+  background-color: #ffffff;
+}
+.landing-wrapper #features .features-content {
+  text-align: center;
+  padding: 24px 15px;
+  background-color: #ffffff;
+}
+.landing-wrapper #features .features-content h3 {
+  font-size: 21px;
+  font-weight: 600;
+  color: #3c4161;
+}
+.landing-wrapper #features .features-content p {
+  font-size: 15px;
+  color: #333333;
+}
+.landing-wrapper #news {
+  padding: 53px 340px;
+}
+.landing-wrapper #news .news-content {
+  text-align: center;
+}
+.landing-wrapper #news .news-content h2 {
+  font-size: 28px;
+  font-weight: normal;
+  color: #212121;
+}
+.landing-wrapper #news .news-content p {
+  opacity: 0.9;
+  font-size: 17px;
+  color: #212121;
+}
+.landing-wrapper #pricing {
+  background-color: #ffffff;
+  padding: 72px 142px;
+}
+.landing-wrapper #pricing .price-type .price-header {
+  font-size: 21px;
+  padding: 11px 32px;
+  font-weight: 600;
+  text-align: left;
+  color: #ffffff;
+}
+.landing-wrapper #pricing .price-type .price-header h3 {
+  margin: 0;
+  font-weight: normal;
+}
+.landing-wrapper #pricing .price-type .price-header .price-for {
+  opacity: 0.9;
+  font-weight: 400;
+  font-size: 15px;
+  text-align: left;
+  color: #ffffff;
+}
+.landing-wrapper #pricing .price-type .pricing-bottom {
+  padding: 27px 32px;
+  min-height: 383px;
+  text-align: center;
+  position: relative;
+}
+.landing-wrapper #pricing .price-type .pricing-bottom ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: left;
+}
+.landing-wrapper #pricing .price-type .pricing-bottom ul li {
+  font-size: 17px;
+  color: #333333;
+  padding-bottom: 12px;
+}
+.landing-wrapper #pricing .price-type .pricing-bottom ul li i {
+  font-size: 17px;
+  color: #00b395;
+  margin-right: 12px;
+}
+.landing-wrapper #pricing .price-type .pricing-bottom button {
+  border-color: #ffb900;
+  background-color: #ffb900;
+  position: absolute;
+  bottom: 20px;
+  width: 120px;
+  left: 50%;
+  margin-left: -60px;
+}
+.landing-wrapper #pricing .price-type .pricing-bottom button .p-button-text {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  color: #333333;
+  width: 100%;
+}
+.landing-wrapper #multimedia {
+  padding: 36px 0 67px 0;
+  text-align: center;
+}
+.landing-wrapper #multimedia .video-header {
+  margin-bottom: 70px;
+}
+.landing-wrapper #multimedia .video-header h2 {
+  font-size: 28px;
+  text-align: center;
+  color: #ffffff;
+  font-weight: normal;
+}
+.landing-wrapper #multimedia .video-header span {
+  opacity: 0.9;
+  font-size: 17px;
+  text-align: center;
+  color: #ffffff;
+}
+.landing-wrapper #multimedia .video-container iframe {
+  width: 580px;
+  height: 330px;
+}
+.landing-wrapper #footer {
+  background-color: #333333;
+  padding: 71px 146px;
+}
+.landing-wrapper #footer .logo {
+  height: 64px;
+  padding-top: 12px;
+  padding-left: 12px;
+  width: 225px;
+  float: left;
+}
+.landing-wrapper #footer .logo img {
+  height: 40px;
+  width: auto;
+  vertical-align: middle;
+}
+.landing-wrapper #footer .logo .app-name {
+  font-weight: bold;
+  font-size: 24px;
+  vertical-align: middle;
+  margin-left: 12px;
+}
+.landing-wrapper #footer span {
+  font-size: 14px;
+  text-align: left;
+  color: #ffffff;
+}
+.landing-wrapper #footer #landing-menu-footer .landing-box {
+  text-align: left;
+}
+.landing-wrapper #footer #landing-menu-footer .landing-box span {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+  color: #c8c8c8;
+  display: block;
+}
+.landing-wrapper #footer #landing-menu-footer .landing-box a {
+  margin-top: 8px;
+  display: block;
+  color: #ffffff;
+}
+.landing-wrapper #footer #landing-menu-footer .landing-box a > a {
+  opacity: 0.9;
+  font-size: 14px;
+  text-align: left;
+  color: #ffffff;
+}
+.landing-wrapper #footer #landing-menu-footer .landing-box .icon-link {
+  display: inline-block;
+  margin-top: 30px;
+}
+.landing-wrapper #footer #landing-menu-footer .landing-box .icon-link .icon {
+  color: #ffffff;
+  font-size: 22px;
+  margin-right: 32px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .landing-wrapper #header {
+    padding: 42px 25px;
+  }
+  .landing-wrapper #header .header-top .logo-container {
+    text-align: center;
+  }
+  .landing-wrapper #header .header-top .logo-container .logo {
+    float: none;
+    padding-top: 12px;
+    padding-left: 12px;
+    text-align: center;
+  }
+  .landing-wrapper #header .header-top .logo-container .logo img {
+    height: 40px;
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+  }
+  .landing-wrapper #header .header-top .logo-container .logo .app-name {
+    font-weight: bold;
+    font-size: 24px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 12px;
+  }
+  .landing-wrapper #header .header-top .menu-button-mobile {
+    display: block;
+    text-align: center;
+    padding: 17px;
+  }
+  .landing-wrapper #header .header-top .menu-button-mobile i {
+    display: inline-block;
+    font-size: 24px;
+    color: #ffffff;
+  }
+  .landing-wrapper #header .header-top #landing-menu {
+    display: none;
+    position: relative;
+  }
+  .landing-wrapper #header .header-top #landing-menu.landing-menu-active {
+    margin: 0;
+    display: block;
+    position: absolute;
+    top: 120px;
+    left: 0;
+    width: 100%;
+    background-color: #212121;
+    z-index: 100;
+  }
+  .landing-wrapper #header .header-top #landing-menu.landing-menu-active > li {
+    display: block;
+    padding: 24px;
+  }
+  .landing-wrapper #header .header-top #landing-menu.landing-menu-active > li a {
+    display: inline-block;
+    color: #c8c8c8;
+  }
+  .landing-wrapper #header .header-top #landing-menu.landing-menu-active > li i {
+    display: inline-block;
+    float: right;
+    color: #c8c8c8;
+  }
+  .landing-wrapper #header .header-top #landing-menu.landing-menu-active > li:hover a {
+    color: #ffb900;
+  }
+  .landing-wrapper #header .header-top #landing-menu.landing-menu-active > li:hover i {
+    color: #ffb900;
+  }
+  .landing-wrapper #header .header-content {
+    padding: 115px 0;
+    width: 100%;
+    text-align: center;
+  }
+  .landing-wrapper #header .header-content h1 {
+    text-align: center;
+  }
+  .landing-wrapper #header .header-content h2 {
+    text-align: center;
+  }
+  .landing-wrapper #features {
+    padding: 72px 52px;
+  }
+  .landing-wrapper #features .features-content {
+    margin-bottom: 50px;
+  }
+  .landing-wrapper #news {
+    padding: 61px 36px;
+  }
+  .landing-wrapper #pricing {
+    padding: 72px 52px;
+  }
+  .landing-wrapper #pricing .price-type {
+    margin-bottom: 70px;
+  }
+  .landing-wrapper #multimedia {
+    padding: 36px 14px;
+  }
+  .landing-wrapper #multimedia .video-container {
+    width: 100%;
+  }
+  .landing-wrapper #multimedia .video-container iframe {
+    width: 350px;
+    height: 220px;
+  }
+  .landing-wrapper #footer {
+    padding: 71px 47px;
+  }
+  .landing-wrapper #footer .footer {
+    padding: 0;
+  }
+  .landing-wrapper #footer .footer .logo {
+    float: none;
+    width: 100%;
+    text-align: center;
+  }
+  .landing-wrapper #footer .footer span {
+    text-align: center;
+  }
+  .landing-wrapper #footer .landing-menu-footer .landing-box {
+    text-align: center;
+  }
+  .landing-wrapper #footer .landing-menu-footer .landing-box span {
+    text-align: center;
+  }
+  .landing-wrapper #footer .landing-menu-footer .landing-box a {
+    text-align: center;
+    display: block;
+  }
+  .landing-wrapper #footer .landing-menu-footer .landing-box a:last-child {
+    margin-bottom: 50px;
+  }
+  .landing-wrapper #footer .landing-menu-footer .landing-box .landing-box {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .landing-wrapper #footer .landing-menu-footer .landing-box .icon-link {
+    text-align: center;
+  }
+  .layout-mask {
+    position: fixed;
+    top: 120px;
+    left: 0;
+    z-index: 99;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #212121;
+  }
+  .landing-body.landing-masked {
+    overflow: hidden;
+  }
+}
+
+

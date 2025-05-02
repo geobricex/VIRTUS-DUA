@@ -1,0 +1,24 @@
+<p-toast key="tst" [baseZIndex]="99999"></p-toast>
+
+<div class="login-body" style="display: flex; justify-content: center;">
+  <div class="login-panel"
+       style="position: absolute; top: 50%; transform: translate(0, -50%); height: auto; display: flex;align-items: stretch;">
+    <img src="assets/layout/images/imagesVirtus/logoVirtus.svg" alt="harmony-layout" class="mobile"
+         style="width: 100%; margin: auto; margin-top: 2rem;"/>
+    <div class="left-part text-center bg-white" style="width: 100%" *ngIf="!vericateAccount">
+      <h3 class="font-bold"> Verificando cuenta </h3>
+      <h5> Espere un momento mientras se verifican sus datos </h5>
+      <img src="assets/layout/images/imagesVirtus/loding.gif" alt="harmony-layout" class=""/>
+    </div>
+    <div class="left-part text-center bg-white" style="width: 100%" *ngIf="vericateAccount">
+      <h3 class="font-bold"> Verificando cuenta </h3>
+      <div class="bg-green-100 p-3 border-round">
+        <i class="pi pi-check text-green-800" style="font-size: 2rem"></i>
+        <h5 class="text-green-800"> La cuenta ha sido verificada exitosamente. </h5>
+        <h4 routerLink="/login" class="text-blue-500 cursor-pointer"> Iniciar sesion </h4>
+      </div>
+    </div>
+  </div>
+  <p-scrollTop target="window" styleClass="custom-scrolltop" [threshold]="100" icon="pi pi-arrow-up"></p-scrollTop>
+
+</div>

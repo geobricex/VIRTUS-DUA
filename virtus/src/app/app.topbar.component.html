@@ -1,0 +1,94 @@
+<div class="layout-topbar">
+
+  <a href="/" class="logo-container">
+    <img class="logo" alt="VIRTUS" src="assets/layout/images/imagesVirtus/logoSolo.svg"
+         (error)="utils.onImgError($event)"/>
+    <span class="app-name">VIRTUS</span>
+  </a>
+
+  <div class="topbar-content">
+    <a href="#" id="topbar-sidebar-button" (click)="app.onMenuButtonClick($event)">
+      <i class="pi pi-bars"></i>
+    </a>
+    <!--<div class="search-input">
+        <i class="pi pi-search icon-search"></i>
+        <input type="text" pInputText=""/>
+    </div>-->
+
+    <!--    <a href="#" id="topbar-quickmenu-button" (click)="app.onQuickMenuButtonClick($event)">-->
+    <!--      QUICK MENU-->
+    <!--    </a>-->
+    <!--    <div class="topbar-icons">-->
+    <!--      <ul>-->
+    <!--        <li>-->
+    <!--          <a>-->
+    <!--            <i class="pi pi-user topbar-icon-calendar"></i>-->
+    <!--            <span class="icon-label">Perfil</span>-->
+    <!--          </a>-->
+    <!--          <div class="layout-quickmenu-tooltip">-->
+    <!--            <div class="layout-quickmenu-tooltip-arrow"></div>-->
+    <!--            <div class="layout-quickmenu-tooltip-text">Perfil</div>-->
+    <!--          </div>-->
+    <!--        </li>-->
+    <!--        <li>-->
+    <!--          <a>-->
+    <!--            <i class="pi pi-cog topbar-icon-settings"></i>-->
+    <!--            <span class="icon-label">Configuración</span>-->
+    <!--          </a>-->
+    <!--          <div class="layout-quickmenu-tooltip">-->
+    <!--            <div class="layout-quickmenu-tooltip-arrow"></div>-->
+    <!--            <div class="layout-quickmenu-tooltip-text">Configuración</div>-->
+    <!--          </div>-->
+    <!--        </li>-->
+    <!--        <li>-->
+    <!--          <a routerLink="/login">-->
+    <!--            <i class="pi pi-sign-out topbar-icon-notes"></i>-->
+    <!--            <span class="icon-label">Cerrar Sesión</span>-->
+    <!--          </a>-->
+    <!--          <div class="layout-quickmenu-tooltip">-->
+    <!--            <div class="layout-quickmenu-tooltip-arrow"></div>-->
+    <!--            <div class="layout-quickmenu-tooltip-text">Cerrar Sesión</div>-->
+    <!--          </div>-->
+    <!--        </li>-->
+    <!--      </ul>-->
+    <!--    </div>-->
+
+    <!--<a id="topbar-right-panel-button" href="#" (click)="app.onRightPanelButtonClick($event)">
+        <i class="pi pi-ellipsis-v"></i>
+    </a>-->
+    <a id="topbar-profile-menu-button" href="#" (click)="app.onTopbarMenuButtonClick($event)">
+      <img *ngIf="person.pathimgPerson" [src]="person.pathimgPerson" alt="VIRTUS" class="topbar-profile"
+           (error)="utils.onImgError($event)"
+           style="border-radius: 50%"/>
+      <span
+      >{{person.namePerson !== undefined ? person.namePerson : ''}} {{person.lastnamePerson !== undefined ? person.lastnamePerson : ''}}</span>
+
+      <span
+        class="p-badge p-badge-success ml-1">{{person.typePerson === 'U' ? 'Aprendiz' : person.typePerson === 'I' ? 'Instructor' : person.typePerson === 'A' ? 'Administrador' : 'Root'}}</span>
+    </a>
+    <ul id="topbar-profile-menu" class="animated fadeInDown"
+        [ngClass]="{'topbar-profile-menu-active': app.topbarMenuActive}">
+      <li #theme [ngClass]="{'menuitem-active':app.activeTopbarItem === theme}">
+        <a routerLink="/app/myprofile" (click)="app.onTopbarItemClick($event, theme)">
+          <i class="pi pi-user topbar-icon-calendar"></i>
+          <span class="topbar-item-name">Perfil</span>
+        </a>
+        <!--        <a routerLink="/login" (click)="app.onTopbarItemClick($event, theme)">-->
+        <!--          <i class="pi pi-cog topbar-icon-settings"></i>-->
+        <!--          <span class="topbar-item-name">Configuración</span>-->
+        <!--        </a>-->
+        <!--        <a (click)="showDialog()">-->
+        <!--          <i class="pi pi-cog topbar-icon-settings"></i>-->
+        <!--          <span class="topbar-item-name">Accesibilidad</span>-->
+        <!--        </a>-->
+        <a (click)="logout()">
+          <i class="topbar-icon pi pi-fw pi-sign-out"></i>
+          <span class="topbar-item-name">Cerrar Sesion</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <p-dialog header="Title" [(visible)]="display">
+    Content
+  </p-dialog>
+</div>

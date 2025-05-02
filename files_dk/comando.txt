@@ -1,0 +1,3 @@
+docker build -t virtus/virtus:1.0.1 .
+
+docker run -d -p 80:80 bharathirajatut/angular-app:latest

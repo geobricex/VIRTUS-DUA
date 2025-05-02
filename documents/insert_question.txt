@@ -1,0 +1,53 @@
+INSERT INTO public.questions(
+	title_question, description_question, 
+	pathurlsign_question, points_question, 
+	maximumpoints_question, state_question, 
+	evaluations_id_evaluation, level_question, 
+	question_category_id_questioncategory, pathurlvideo_question, 
+	pathurlfile_question, feedback_question, hint_question)
+	VALUES ('Conocimiento', '¿Qué es HTML?', 
+			'', true, 
+			10, 'A', 
+			12, 1, 
+			2, '', 
+			'', '', 
+			'');
+	select * from questions order by id_question desc
+
+
+
+
+
+INSERT INTO public.answers(
+	options_answer, datereg_answer, 
+	dateupdate_answer, questions_id_question)
+	VALUES ('[
+      {
+         "opcion": "Un lenguaje funcional",
+         "correct": "No",
+         "resource": ""
+
+      },
+      {
+         "opcion": "Un lenguaje de programación",
+         "correct": "No",
+         "resource": ""
+      },  
+      {
+         "opcion": "Un protocolo",
+         "correct": "No",
+         "resource": ""
+      },
+      {
+         "opcion": "Un lenguaje de marcas",
+         "correct": "Yes”
+         "resource": ""
+      }
+   ]
+', 
+			now(), 
+			now(), 
+			63);
+			
+	select * from answers order by id_answer desc
+	
